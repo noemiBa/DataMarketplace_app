@@ -40,4 +40,43 @@ public class UsersController {
         return usersRepository.findAll();
     }
 
+    @PostMapping(path = "/userlogin")
+    public @ResponseBody void userlogin (@RequestParam String username,
+                                         @RequestParam String password,
+                                         HttpServletResponse response) throws IOException {
+        // if the user cannot be validated then reset the login page and alert user
+        if(!validateUserLogin(username,password)) {
+            System.out.println("!!!!!!!!!!!!!!! Login Failed !!!!!!!!!!");
+            try{
+                response.sendRedirect("/login");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // add any necessary bits to have the user logged into the site
+            System.out.println("!!!!!!!!!!!!!!! Login Succeeded !!!!!!!!!!");
+            try {
+                response.sendRedirect("/"); // temporarily redirects to index.html
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Boolean validateUserLogin(String username, String password) {
+        Iterable<Users> usersList = usersRepository.findByUsername(username);
+
+        if(usersList.iterator().hasNext()){
+            Users u = usersList.iterator().next();
+            System.out.println("!!!!!!!!!!!!!!!! Username: " +
+                    u.getUsername() + ", Password: " + u.getPassword());
+            System.out.println("!!! The given password is: " + password);
+            if(password == u.getPassword()){ // !!! this boolean is not working despite being equal
+                System.out.println(" password matches ");
+            }
+            return true;
+        }
+        return false;
+    }
+
 }
