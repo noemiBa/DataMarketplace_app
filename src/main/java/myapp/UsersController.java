@@ -45,8 +45,23 @@ public class UsersController {
                                          @RequestParam String password,
                                          HttpServletResponse response) throws IOException {
         // if the user cannot be validated then reset the login page and alert user
-        if(!validateUserLogin(username,password)) {
-            System.out.println("!!!!!!!!!!!!!!! Login Failed !!!!!!!!!!");
+        boolean validPassword = false;
+
+        // first try catch checks for a valid username, if so verifies password
+        try {
+            Users u = usersRepository.findByUsername(username);
+            if (u.getPassword().compareTo(password) == 0) {
+                validPassword = true;
+            }
+        } catch(Exception exception) {
+            exception.printStackTrace();
+        }
+
+        // valid password will be false if password is wrong or username is not valid
+        if(!validPassword) {
+            // add code to deal with an invalid username or password
+
+//            System.out.println("!!!!!!!!!!!!!!! Login Failed !!!!!!!!!!");
             try{
                 response.sendRedirect("/login");
             } catch (IOException e) {
@@ -54,29 +69,14 @@ public class UsersController {
             }
         } else {
             // add any necessary bits to have the user logged into the site
-            System.out.println("!!!!!!!!!!!!!!! Login Succeeded !!!!!!!!!!");
+
+//            System.out.println("!!!!!!!!!!!!!!! Login Succeeded !!!!!!!!!!");
             try {
                 response.sendRedirect("/"); // temporarily redirects to index.html
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private Boolean validateUserLogin(String username, String password) {
-        Iterable<Users> usersList = usersRepository.findByUsername(username);
-
-        if(usersList.iterator().hasNext()){
-            Users u = usersList.iterator().next();
-            System.out.println("!!!!!!!!!!!!!!!! Username: " +
-                    u.getUsername() + ", Password: " + u.getPassword());
-            System.out.println("!!! The given password is: " + password);
-            if(password == u.getPassword()){ // !!! this boolean is not working despite being equal
-                System.out.println(" password matches ");
-            }
-            return true;
-        }
-        return false;
     }
 
 }
