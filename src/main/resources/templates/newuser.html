@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New User</title>
+</head>
+<body>
+<form method="POST" action="/addnewuser">
+    <table>
+        <tr>
+            <td><label for="username">username: </label></td>
+            <td><input type="text" name="username" id="username" required></td>
+        </tr>
+        <tr>
+            <td><label for="password">password: </label></td>
+            <td><input type="text" name="password" id="password" required></td>
+        </tr>
+        <tr>
+            <td><label for="fullname">fullname: </label></td>
+            <td><input type="text" name="fullname" id="fullname" required></td>
+        </tr>
+        <tr>
+            <td><label for="email">email: </label></td>
+            <td><input type="text" name="email" id="email" required></td>
+        </tr>
+    </table>
+    <button type="submit" class="button" id="bttn-addnewuser">Add User</button>
+</form>
+<form method="GET" action="/viewallusers">
+    <button type="submit" class="button" id="bttn-viewallusers">View All Users</button>
+</form>
+</body>
+</html>

@@ -31,6 +31,9 @@ public class MyController {
         return "login.html";
     }
 
+    @GetMapping("/newuser")
+    public String newuser() { return "newuser.html"; }
+
     @GetMapping("/shoppingcart")
     public String shoppingcart() {
         return "shoppingcart.html";
