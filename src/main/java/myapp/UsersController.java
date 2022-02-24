@@ -79,4 +79,9 @@ public class UsersController {
         }
     }
 
+    public int getIdFromUsername(String username){
+        Users u = usersRepository.findByUsername(username);
+        return u.getId();
+    }
+
 }
