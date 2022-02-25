@@ -164,22 +164,25 @@
                      <p>Click on any of our datasets to find out more information and pricing.</p>
                  </div>
                  <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <a href="">
-                            <div class="data-flyer">
-                                <div class="text-box">
-                                    <div class="image-box">
-                                        <img src="img/datasets/img1.jpg" alt="" />
-                                    </div>
-                                    <div class="text-container">
-                                        <h6>Dataset 01</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <th:block th:each="i: ${#numbers.sequence(1, featuredCount)}">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                            <a href="">
+                                <div class="data-flyer">
+                                    <div class="text-box">
+                                        <div class="image-box">
+                                            <!-- <img src="img/datasets/img1.jpg" alt="" /> -->
+                                            <img th:src="@{${'img/datasets/img' + i + '.jpg'}}" />
+                                        </div>
+                                        <div class="text-container">
+                                            <h6 th:text="${featuredAssets.get(i - 1).getAssetname()}"></h6>
+                                            <p th:text="${featuredAssets.get(i - 1).getAssetdesc()}"></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                            </a>
+                        </div>
+                    </th:block>
+                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                         <a href="">
                             <div class="data-flyer">
                                 <div class="text-box">
@@ -224,7 +227,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <a href="" class="btn btn-default btn-lg">See all datasets</a>
