@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
+
 
 import myapp.Asset_types;
 import myapp.Asset_typesRepository;
@@ -37,4 +40,12 @@ public class Data_assetsController {
 	public @ResponseBody Iterable<Data_assets> viewFeaturedData() {
 		return data_assetsRepo.findByFeaturedTrue();
 	}
+
+	@GetMapping("/datasets_all")
+    public String datasets(Model model) {
+		// send down types for filtering and assets
+		model.addAttribute("assetTypes", asset_typesRepo.findAll());
+		model.addAttribute("dataAssets", data_assetsRepo.findAll());
+        return "datasets_all.html";
+    }
 }

@@ -33,11 +33,6 @@ public class MyController {
         return "index.html";
     }
 
-    @GetMapping("/datasets_all")
-    public String datasets() {
-        return "datasets_all.html";
-    }
-
     @GetMapping("/login")
     public String login() {
         return "login.html";
