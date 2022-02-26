@@ -38,8 +38,14 @@ function updateAllCheckBox() {
 	let typesArray = Array.from(typeCheckBoxes);
 	const allChecked = typesArray.every(type => type.checked);
 	const noneChecked = typesArray.every(type => !type.checked);
-	if (allChecked) allCheckBox.checked = true;
-	if (noneChecked) allCheckBox.checked = false;
+	if (allChecked) {
+		allCheckBox.checked = true;
+		allCheckBox.indeterminate = false;
+	}
+	if (noneChecked) {
+		allCheckBox.checked = false;
+		allCheckBox.indeterminate = false;
+	}
 	if (!allChecked && !noneChecked) {
 		allCheckBox.checked = false;
 		allCheckBox.indeterminate = true;
