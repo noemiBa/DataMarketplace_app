@@ -612,6 +612,98 @@ a:focus {
     }
 }
 
+
+ .shoppingcart {
+    margin-top: 5%;
+    margin: auto;
+    max-width: 1050px;
+    width: 93%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+ }
+
+ @media(max-width:767px) {
+    .shoppingcart {
+        margin: 3vh auto
+    }
+}
+
+.shoppingcart h2, p {
+   color: black;
+}
+
+.table-responsive th, h5, td, a{
+color: black;
+}
+
+.table-responsive p {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.cart {
+    background-color: whitesmoke;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem
+}
+
+.cart_subscript {
+    font-size: 14px;
+    font-weight: 600
+}
+
+@media(max-width:767px) {
+    .cart {
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem
+    }
+}
+
+.cart_payment {
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65)
+}
+
+@media(max-width:767px) {
+    .cart_payment {
+        border-top-right-radius: unset;
+        border-bottom-left-radius: 1rem
+    }
+}
+
+.form-control {
+    color: white;
+    background-color: #223C60;
+    border: 2px solid transparent;
+    height: 60px;
+    padding-left: 20px;
+    vertical-align: middle
+}
+
+.form-control:focus {
+    color: white;
+    background-color: #0C4160;
+    border: 2px solid #2d4dda;
+    box-shadow: none
+}
+
+.text {
+    font-size: 14px;
+    font-weight: 600
+}
+
+::placeholder {
+    font-size: 14px;
+    font-weight: 300
+}
+
+
 /*Shopping cart*/
 
 
