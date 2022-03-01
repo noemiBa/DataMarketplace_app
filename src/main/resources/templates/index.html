@@ -139,13 +139,13 @@
             </section>
 
             <!-- Join Section -->
-            <section id="join" class="content-section text-center">
+            <section th:if="${showJoinUs}" id="join" class="content-section text-center">
                 <div class="join-section">
                     <div class="container">
                         <div class="intro-body col-lg-8 col-lg-offset-2">
                             <h2 class="brand-heading">Join Anansi</h2>
                             <p class="intro-text">You can purchase the data sets below by freely creating an account today.</p>
-                            <a href="" class="btn btn-default btn-lg">Visit Login Page</a>
+                            <a th:href="@{|${loginRouting}|}" class="btn btn-default btn-lg">Visit Login Page</a>
                         </div>
                     </div>
                 </div>

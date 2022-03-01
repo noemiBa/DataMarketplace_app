@@ -32,10 +32,12 @@ public class MyController {
         System.out.println("Active User is Null: " + (activeUser.getInstance().isActiveUserLoggedIn()));
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             System.out.println(activeUser.getInstance().toString());
+            model.addAttribute("showJoinUs",true);
             model.addAttribute("loginRouting","/login");
             model.addAttribute("loginstate","Login");
         } else {
             System.out.println(activeUser.getInstance().toString());
+            model.addAttribute("showJoinUs",false);
             model.addAttribute("loginRouting","/logout");
             model.addAttribute("loginstate","Log Out");
         }
