@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -69,7 +69,7 @@
                             <a class="page-scroll" href="/shoppingcart">Shopping Cart</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/login">Login</a>
+                            <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
                         </li>
                         <li>
                             <a class="page-scroll" href="#location">Location</a>

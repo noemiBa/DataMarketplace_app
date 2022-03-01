@@ -14,6 +14,8 @@ public class activeUser {
         return activeUserInstance;
     }
 
+    public boolean isActiveUserLoggedIn() { return activeUser == null; }
+
     public Users getActiveUser() { return activeUser; }
 
     public void loginUser(Users user){

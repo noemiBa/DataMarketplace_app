@@ -29,6 +29,16 @@ public class MyController {
         // Send count and list to thymeleaf in index
         model.addAttribute("featuredAssets", featuredAssets);
         model.addAttribute("featuredCount", count);
+        System.out.println("Active User is Null: " + (activeUser.getInstance().isActiveUserLoggedIn()));
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            System.out.println(activeUser.getInstance().toString());
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+        } else {
+            System.out.println(activeUser.getInstance().toString());
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+        }
 
         return "index.html";
     }
@@ -36,6 +46,16 @@ public class MyController {
     @GetMapping("/login")
     public String login() {
         return "login.html";
+    }
+
+    @GetMapping("/logout")
+    public void logout(HttpServletResponse response) throws Exception{
+        activeUser.getInstance().logoutUser();
+        try {
+            response.sendRedirect("/");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/newuser")
