@@ -19,15 +19,19 @@ public class UsersController {
     @PostMapping(path = "/addnewuser")
     public @ResponseBody void addNewUser (@RequestParam String username,
                                             @RequestParam String password,
-                                            @RequestParam String fullname,
+                                            @RequestParam String name,
                                             @RequestParam String email,
                                             HttpServletResponse response) throws IOException {
         Users u = new Users();
         u.setUsername(username);
         u.setPassword(password);
-        u.setFullname(fullname);
+        u.setName(name);
         u.setEmail(email);
+        u.setAdmin(false);
+        u.setActive(true);
+
         usersRepository.save(u);
+        activeUser.getInstance().loginUser(u);
         try{
             response.sendRedirect("/"); // temporarily redirects to index.html
         } catch (IOException e) {
@@ -44,6 +48,8 @@ public class UsersController {
     public @ResponseBody void userlogin (@RequestParam String username,
                                          @RequestParam String password,
                                          HttpServletResponse response) throws IOException {
+        // logout current user
+        activeUser.getInstance().logoutUser();
         // if the user cannot be validated then reset the login page and alert user
         boolean validPassword = false;
 
@@ -69,7 +75,8 @@ public class UsersController {
             }
         } else {
             // add any necessary bits to have the user logged into the site
-
+            Users u = usersRepository.findByUsername(username);
+            activeUser.getInstance().loginUser(u);
 //            System.out.println("!!!!!!!!!!!!!!! Login Succeeded !!!!!!!!!!");
             try {
                 response.sendRedirect("/"); // temporarily redirects to index.html
