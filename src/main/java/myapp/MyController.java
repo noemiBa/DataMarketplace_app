@@ -63,6 +63,9 @@ public class MyController {
     @GetMapping("/newuser")
     public String newuser() { return "newuser.html"; }
 
+    @GetMapping("/adminlogin")
+    public String adminlogin() { return "adminlogin.html"; }
+
     @GetMapping("/shoppingcart")
     public String shoppingcart() {
         if(!activeUser.getInstance().isActiveUserLoggedIn()) {
