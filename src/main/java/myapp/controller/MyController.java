@@ -54,12 +54,26 @@ public class MyController {
     public String login(Model model) {
         model.addAttribute("invalidpassword",invalidPassword);
         model.addAttribute("usedusername",usedUsername);
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/adminlogin");
+            model.addAttribute("loginstate","Admin Login");
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+        }
         return "login.html";
     }
 
     @GetMapping("/adminlogin")
     public String adminlogin(Model model) {
         model.addAttribute("invalidpassword",invalidPassword);
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+        }
         return "adminlogin.html";
     }
 
