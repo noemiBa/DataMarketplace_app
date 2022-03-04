@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-md-8">
             <h2 id="cart_title">Shopping Cart</h2>
-            <div class="col align-self-center text-muted">3 items</div>
+            <div class="col align-self-center text-muted">[[${cartItems.size() + " items"}]]</div>
             
             <!-- Shopping cart table -->
           <div class="table-responsive cart_table">
@@ -120,44 +120,21 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row" class="border-0">
-                    <div class="p-2">
-                      <div class="ml-3 d-inline-block align-middle">
-                        <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle text-muted">Dataset Name</a></h5>
-                        <p class="text-muted text-dark">Description here</p>
-                      </div>
-                    </div>
-                  </th>
-                  <td class="border-0 align-middle text-muted"><strong>$79.00</strong></td>
-                  <td class="border-0 align-middle text-muted"><strong>3</strong></td>
-                  <td class="border-0 align-middle text-muted"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <div class="p-2">
-                      <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle text-muted">Dataset Name</a></h5>
-                        <p class="text-muted text-dark">Description here</p>
-                      </div>
-                    </div>
-                  </th>
-                  <td class="align-middle text-muted"><strong>$79.00</strong></td>
-                  <td class="align-middle text-muted"><strong>3</strong></td>
-                  <td class="align-middle text-muted"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <div class="p-2">
-                      <h5 class="mb-0"> <a href="#" class="text-dark d-inline-block align-middle text-muted">Dataset Name</a></h5>
-                        <p class="text-muted text-dark">Description here</p>
-                      </div>
-                    </div>
-                    <td class="align-middle text-muted"><strong>$79.00</strong></td>
-                    <td class="align-middle text-muted"><strong>3</strong></td>
-                    <td class="align-middle text-muted"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
+                <th:block th:each="cartItem: ${cartItems}">
+                    <tr th:with="product = ${cartItem.getProduct()}">
+                      <th scope="row" class="border-0">
+                        <div class="p-2">
+                          <div class="ml-3 d-inline-block align-middle">
+                            <h5 class="mb-0 text-dark d-inline-block align-middle text-muted">[[${product.getAssetname()}]]</a></h5>
+                            <p class="text-muted text-dark">[[${product.getAssetdesc()}]]</p>
+                          </div>
+                        </div>
+                      </th>
+                      <td class="border-0 align-middle text-muted"><strong>&euro;[[${product.getAssetcost()}]]</strong></td>
+                      <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]</strong></td>
+                      <td class="border-0 align-middle text-muted"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                </th:block>    
               </tbody>
             </table>
           </div>
@@ -170,7 +147,7 @@
                 You are a few steps away from making a difference for your company. Enter your payment details below </p>
                 <p>
                     <div class="row">
-                        <div class="col" style="padding-left:0;">ITEMS 3</div>
+                        <div class="col" style="padding-left:0;">[[${cartItems.size() + " ITEMS"}]]</div>
                         <div class="col text-right">&euro; 132.00</div>
                     </div> 
                     <div class="col-12">

@@ -82,7 +82,7 @@ public class Data_assets {
 		this.asset_type = asset_type;
 	}
 
-	public double getPrice() { return 0.0; } //to be changed with actual method
+
 
 	// public void setAsset_type_id(Integer id) {
 	// 	asset_type_id = id;
