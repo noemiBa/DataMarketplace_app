@@ -76,16 +76,6 @@ public class MyController {
     @GetMapping("/newuser")
     public String newuser() { return "newuser.html"; }
 
-    @GetMapping("/shoppingcart")
-    public String shoppingcart() {
-        if(!activeUser.getInstance().isActiveUserLoggedIn()) {
-            return "shoppingcart.html";
-        } else {
-            goToCartAfterLogin = true;
-            return "login.html";
-        }
-    }
-
     @Autowired
     private UsersRepository usersRepository;
 
