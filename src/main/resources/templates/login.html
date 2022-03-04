@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
 
@@ -45,7 +45,7 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand page-scroll" href="index.html">
+                    <a class="navbar-brand page-scroll" href="/">
                         <i class="fa fa-cubes"></i>  <span class="light">Anansi</span> Data
                     </a>
                 </div>
@@ -57,22 +57,10 @@
                             <a href="#page-top"></a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="index.html#about">About</a>
+                            <a class="page-scroll" href="/shoppingcart">Shopping Cart</a>
                         </li>
                         <li>
-                            <a  href="datasets_all.html">Datasets</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="index.html#team">Our team</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="shoppingcart.html">Shopping Cart</a>
-                        </li>
-                        <li>
-                            <a href="/login">Login</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="index.html#location">Location</a>
+                            <a href="/adminlogin">Admin Login</a>
                         </li>
                     </ul>
                 </div>
@@ -114,6 +102,9 @@
                     <input type="password" name="password" placeholder="Password" required="">
                     <input type="text" name="name" placeholder="Full Name" required="">
                     <input type="email" name="email" placeholder="Email" required="">
+                    <p style="color: red; font-size: 0.75em; text-align: center;" th:if="${usedusername}">
+                        Username is already taken. Please try again.
+                    </p>
                     <button type="submit">Sign up</button>
                 </form>
             </div>
