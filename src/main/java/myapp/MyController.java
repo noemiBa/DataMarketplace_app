@@ -19,6 +19,7 @@ public class MyController {
     private Data_assetsRepository data_assetsRepo;
     private boolean goToCartAfterLogin = false;
     private boolean invalidPassword = false;
+    private boolean usedUsername = false;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -47,7 +48,14 @@ public class MyController {
     @GetMapping("/login")
     public String login(Model model) {
         model.addAttribute("invalidpassword",invalidPassword);
+        model.addAttribute("usedusername",usedUsername);
         return "login.html";
+    }
+
+    @GetMapping("/adminlogin")
+    public String adminlogin(Model model) {
+        model.addAttribute("invalidpassword",invalidPassword);
+        return "adminlogin.html";
     }
 
     @GetMapping("/logout")
@@ -63,9 +71,6 @@ public class MyController {
     @GetMapping("/newuser")
     public String newuser() { return "newuser.html"; }
 
-    @GetMapping("/adminlogin")
-    public String adminlogin() { return "adminlogin.html"; }
-
     @GetMapping("/shoppingcart")
     public String shoppingcart() {
         if(!activeUser.getInstance().isActiveUserLoggedIn()) {
@@ -79,31 +84,46 @@ public class MyController {
     @Autowired
     private UsersRepository usersRepository;
 
+    private void addUserToDatabase(String username, String password, String name, String email, boolean admin){
+        Users u = new Users();
+        u.setUsername(username);
+        u.setPassword(password);
+        u.setName(name);
+        u.setEmail(email);
+        u.setAdmin(admin);
+        u.setActive(true);
+        usersRepository.save(u);
+    }
+
     @PostMapping(path = "/addnewuser")
     public @ResponseBody void addNewUser (@RequestParam String username,
                                           @RequestParam String password,
                                           @RequestParam String name,
                                           @RequestParam String email,
                                           HttpServletResponse response) throws IOException {
-        Users u = new Users();
-        u.setUsername(username);
-        u.setPassword(password);
-        u.setName(name);
-        u.setEmail(email);
-        u.setAdmin(false);
-        u.setActive(true);
-
-        usersRepository.save(u);
-        activeUser.getInstance().loginUser(u);
-        try{
-            if(goToCartAfterLogin){
-                response.sendRedirect("/shoppingcart");
-            } else {
-                response.sendRedirect("/");
+        if(usersRepository.findByUsername(username) != null) {
+            try {
+                usedUsername = true;
+                response.sendRedirect("/login");
+            } catch (IOException e){
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            addUserToDatabase(username,password,name,email,false);
+            activeUser.getInstance().loginUser(usersRepository.findByUsername(username));
+            try{
+                if(goToCartAfterLogin){
+                    response.sendRedirect("/shoppingcart");
+                } else {
+                    response.sendRedirect("/");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+
+
+
     }
 
     @GetMapping("/viewallusers")
@@ -154,6 +174,47 @@ public class MyController {
                 } else {
                     response.sendRedirect("/");
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @PostMapping(path = "/validateadminlogin")
+    public @ResponseBody void validateadminlogin (@RequestParam String username,
+                                         @RequestParam String password,
+                                         HttpServletResponse response) throws IOException {
+        // logout current user
+        activeUser.getInstance().logoutUser();
+        // if the user cannot be validated then reset the login page and alert user
+        boolean validPassword = false;
+        // first try catch checks for a valid username, if so verifies password
+        Users u = usersRepository.findByUsername(username);
+        try {
+            if (u == null){
+                validPassword = false;
+                invalidPassword = true;
+            } else if (u.getPassword().compareTo(password) == 0 && u.isAdmin()) {
+                validPassword = true;
+                invalidPassword = false;
+            } else {
+                invalidPassword = true;
+            }
+        } catch(Exception exception) {
+            exception.printStackTrace();
+        }
+
+        // valid password will be false if password is wrong or username is not valid
+        if(!validPassword) {
+            try{
+                response.sendRedirect("/adminlogin");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            activeUser.getInstance().loginUser(u);
+            try {
+                response.sendRedirect("/");
             } catch (IOException e) {
                 e.printStackTrace();
             }
