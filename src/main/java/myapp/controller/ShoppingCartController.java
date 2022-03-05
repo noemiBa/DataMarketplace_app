@@ -81,7 +81,7 @@ public class ShoppingCartController {
     }
 
     @Transactional
-    @PostMapping("/update_cart_quantity")
+    @RequestMapping(value="/update_cart",params="update",method=RequestMethod.POST)
     public @ResponseBody String updateQuantity(
             @RequestParam Integer qty,
             @RequestParam Integer productID,
@@ -99,6 +99,19 @@ public class ShoppingCartController {
         response.sendRedirect("/shoppingcart");
 
         return String.valueOf(subtotal);
+    }
+
+    @Transactional
+    @RequestMapping(value="/update_cart",params="delete",method=RequestMethod.POST)
+    public @ResponseBody void removeProductFromCart(
+            @RequestParam Integer productID,
+            HttpServletResponse response) throws Exception {
+
+        Users user = activeUser.getInstance().getActiveUser();
+
+        cartServices.removeProduct(productID, user);
+
+        response.sendRedirect("/shoppingcart");
     }
 
 }

@@ -120,7 +120,7 @@
                 </tr>
               </thead>
               <tbody>
-                <form method="POST" action="/update_cart_quantity">
+                <form method="POST" action="/update_cart">
                 <th:block th:each="cartItem: ${cartItems}">
                     <tr th:with="product = ${cartItem.getProduct()}">
                       <th scope="row" class="border-0">
@@ -135,16 +135,22 @@
 
                       <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]x&euro;[[${product.getAssetcost()}]] <br>= &euro;
                        <span class="productSubtotal">[[${cartItem.getItemCostByQuantity()}]]</span></strong></td>
+
+                       <input type="hidden" name="productID" th:value="${cartItem.getProduct().getData_asset_id()}">
                       
                       <td class="border-0 text-muted">
                         <span th:replace="quantity_control :: quantity_control(${cartItem.getQuantity()}, ${cartItem.getProduct().getData_asset_id()})"></span>
                       </td>
                       
-                      <td class="border-0 align-middle text-muted"><a href="#" class="text-dark"><a class="fa fa-trash" href=""></i></a></td>
+                      
+                        <td class="border-0 align-middle text-muted">
+                            <button type="submit" name="delete" class="fabutton">
+                                <i class="fa fa-trash" href=""></i>
+                            </button>    
+                        </td>
+                    
 
                     </tr>
-
-                    <input type="hidden" name="productID" th:value="${cartItem.getProduct().getData_asset_id()}">
                     
                 </th:block> 
                 
@@ -154,7 +160,7 @@
             <div th:if="${#lists.isEmpty(cartItems)}">
                 <h4 class="text-muted text-dark">Your have not chosen any products yet.</h4>
             </div>
-                <button type="submit">Update Cart</button>
+                <button type="submit" name="update">Update Cart</button>
             </form>   
                 
                 

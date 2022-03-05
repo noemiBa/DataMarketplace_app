@@ -703,6 +703,11 @@ color: black;
     font-weight: 300
 }
 
+.fabutton {
+  background: none;
+  padding: 0px;
+  border: none;
+}
 
 /*.list-inline li{display:inline-block;}*/
 
