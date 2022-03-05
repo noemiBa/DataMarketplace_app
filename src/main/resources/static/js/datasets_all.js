@@ -26,12 +26,16 @@ function handleCheckboxChange(checkbox) {
 
 function showItemsOfType(typeId) {
 	const items = document.querySelectorAll(`[data-type-id='${typeId}']`);
-	items.forEach(item => item.style.transform = 'scaleY(1)');
+	items.forEach(item => item.classList.remove("hidden"));
+	items.forEach(item => item.removeEventListener("transitionend", hideAtTransitionEnd));
+	items.forEach(item => setTimeout(() => {item.style.transform = 'scaleY(1)'}, 100));
 }
 
 function hideItemsOfType(typeId) {
 	const items = document.querySelectorAll(`[data-type-id='${typeId}']`);
+	items.forEach(item => item.addEventListener("transitionend", hideAtTransitionEnd));
 	items.forEach(item => item.style.transform = 'scaleY(0)');
+
 }
 
 function updateAllCheckBox() {
@@ -50,4 +54,8 @@ function updateAllCheckBox() {
 		allCheckBox.checked = false;
 		allCheckBox.indeterminate = true;
 	}
+}
+
+function hideAtTransitionEnd() {
+	this.classList.add("hidden");
 }
