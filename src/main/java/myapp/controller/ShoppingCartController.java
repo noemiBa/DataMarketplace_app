@@ -52,23 +52,33 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add_data_cart")
-    public @ResponseBody void addToCard(
+    public @ResponseBody Integer addToCard(
                                         @RequestParam Integer qty,
                                         @RequestParam Integer datasetID,
                                         HttpServletResponse response) throws Exception {
-        if(!activeUser.getInstance().isActiveUserLoggedIn()) {
+
+        //if(!activeUser.getInstance().isActiveUserLoggedIn()) {
             Users user = activeUser.getInstance().getActiveUser();
-            // int dataID = Integer.parseInt(datasetID);
-            // int orderQty = Integer.parseInt(qty);
+
+            Integer addedQuantity = qty;
+
             Data_assets asset = dataRepo.findById(datasetID).get();
-            CartItem cartItem = new CartItem();
-            cartItem.setProduct(asset);
-            cartItem.setUser(user);
-            cartItem.setQuantity(qty);
+            CartItem cartItem = cartRepo.findByUserAndProduct(user, asset);
+
+            if (cartItem != null) { //check if item is already in cart
+                addedQuantity = cartItem.getQuantity() + qty;
+                cartItem.setQuantity(addedQuantity);
+            } else {
+                cartItem = new CartItem();
+                cartItem.setProduct(asset);
+                cartItem.setUser(user);
+                cartItem.setQuantity(qty);
+            }
+
             cartRepo.save(cartItem);
             response.sendRedirect("/shoppingcart");
-        }
-
+        //}
+        return addedQuantity;
     }
     
 }
