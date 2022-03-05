@@ -24,9 +24,13 @@ public class ShoppingCartController {
         if(!activeUser.getInstance().isActiveUserLoggedIn()) {
             Users user = activeUser.getInstance().getActiveUser();
             List<CartItem> cartItems = cartServices.listCartItems(user);
+            Double totPrice = cartServices.getTotalPrice(user);
+            Integer totQuantity = cartServices.getTotalQuantity(user);
 
             //user items to add to page
             model.addAttribute("cartItems", cartItems);
+            model.addAttribute("totPrice", totPrice);
+            model.addAttribute("totQuantity", totQuantity);
 
             return "shoppingcart.html";
         } else {
