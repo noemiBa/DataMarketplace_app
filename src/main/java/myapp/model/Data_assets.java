@@ -46,7 +46,7 @@ public class Data_assets {
 		return featured;
 	}
 
-	public Asset_types getAsset_Type() {
+	public Asset_types getAsset_type() {
 		return asset_type;
 	}
 

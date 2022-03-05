@@ -1,10 +1,15 @@
 package myapp.controller;
 
 import myapp.model.activeUser;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 
 
@@ -49,4 +54,40 @@ public class Data_assetsController {
 		}
         return "datasets_all.html";
     }
+
+	@GetMapping("/view_data/{id}")
+	public String viewData(@PathVariable("id") String dataId, Model model) {
+		// Setup Links for login/ out
+		if(activeUser.getInstance().isActiveUserLoggedIn()){
+			model.addAttribute("loginRouting","/login");
+			model.addAttribute("loginstate","Login");
+			model.addAttribute("loggedIn", false);
+		} else {
+			model.addAttribute("loginRouting","/logout");
+			model.addAttribute("loginstate","Log Out");
+			model.addAttribute("loggedIn", true);
+		}
+		int idNum;
+		// Convert id to number. If not a number return non existant view
+		try {
+			idNum = Integer.parseInt(dataId);
+		} catch(NumberFormatException nfe) {
+			model.addAttribute("exists", false);
+			return "view_data.html";
+		}
+
+		Optional<Data_assets> assetOption = data_assetsRepo.findById(idNum);
+		Data_assets asset;
+		try {
+			asset = assetOption.get();
+		} catch(NoSuchElementException nsee) {
+			model.addAttribute("exists", false);
+			return "view_data.html";
+		}
+		model.addAttribute("exists", true);
+		model.addAttribute("asset", asset);
+		return "view_data.html";
+
+
+	}
 }
