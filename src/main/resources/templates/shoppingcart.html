@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-md-8">
             <h2 id="cart_title">Shopping Cart</h2>
-            <div class="col align-self-center text-muted">[[${cartItems.size() + " items"}]]</div>
+            <div class="col align-self-center text-muted">[[${totQuantity + " items"}]]</div>
             
             <!-- Shopping cart table -->
           <div class="table-responsive cart_table">
@@ -125,14 +125,14 @@
                       <th scope="row" class="border-0">
                         <div class="p-2">
                           <div class="ml-3 d-inline-block align-middle">
-                            <h5 class="mb-0 text-dark d-inline-block align-middle text-muted">[[${product.getAssetname()}]]</a></h5>
+                            <h5> <a class="mb-0 text-dark d-inline-block align-middle text-muted"> <!-- Add link  th:href="@{${product.URI}}" th:title="@{product.getAssetname()}" target="_blank"-->[[${product.getAssetname()}]]</a></h5>
                             <p class="text-muted text-dark">[[${product.getAssetdesc()}]]</p>
                           </div>
                         </div>
                       </th>
-                      <td class="border-0 align-middle text-muted"><strong>&euro;[[${product.getAssetcost()}]]</strong></td>
-                      <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]</strong></td>
-                      <td class="border-0 align-middle text-muted"><a href="#" class="text-dark"><i class="fa fa-trash"></i></a></td>
+                      <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]x&euro;[[${product.getAssetcost()}]] = &euro;[[${cartItem.getItemCostByQuantity()}]]</strong></td>
+                      <td class="border-0 align-middle text-muted"><strong><input type="Number" th:value="${cartItem.getQuantity()}" class="form-control"></strong></td><!-- [[${cartItem.getQuantity()}]] -->
+                      <td class="border-0 align-middle text-muted"><a href="#" class="text-dark"><a class="fa fa-trash" href=""></i></a></td>
                     </tr>
                 </th:block>    
               </tbody>
@@ -144,11 +144,11 @@
             <div class="col-md-4 cart_payment">
                 <h2>Payment details</h2>
                 <p class="text-muted cart_subscript">
-                You are a few steps away from making a difference for your company. Enter your payment details below </p>
+                You are a few steps away from making a difference for your company. Enter your payment details below. </p>
                 <p>
                     <div class="row">
-                        <div class="col" style="padding-left:0;">[[${cartItems.size() + " ITEMS"}]]</div>
-                        <div class="col text-right">&euro; 132.00</div>
+                        <div class="col" style="padding-left:0;">[[${totQuantity + " ITEMS"}]]</div>
+                        <div class="col text-right">&euro;[[${totPrice}]]</div>
                     </div> 
                     <div class="col-12">
                         <div class="d-flex flex-column">

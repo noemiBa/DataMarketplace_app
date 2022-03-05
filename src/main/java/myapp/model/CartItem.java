@@ -50,4 +50,8 @@ public class CartItem {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public Float getItemCostByQuantity() {
+        return quantity*product.getAssetcost();
+    }
 }
