@@ -54,6 +54,7 @@ public class MyController {
     public String login(Model model) {
         model.addAttribute("invalidpassword",invalidPassword);
         model.addAttribute("usedusername",usedUsername);
+        model.addAttribute("redirectTo",redirectTo);
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             model.addAttribute("loginRouting","/adminlogin");
             model.addAttribute("loginstate","Admin Login");
@@ -63,6 +64,8 @@ public class MyController {
         }
         return "login.html";
     }
+
+    private String redirectTo = "/";
 
     @GetMapping("/adminlogin")
     public String adminlogin(Model model) {
@@ -80,6 +83,7 @@ public class MyController {
     @GetMapping("/logout")
     public void logout(HttpServletResponse response) throws Exception{
         activeUser.getInstance().logoutUser();
+        this.redirectTo = "/";
         try {
             response.sendRedirect("/");
         } catch (Exception e) {
@@ -109,6 +113,7 @@ public class MyController {
                                           @RequestParam String password,
                                           @RequestParam String name,
                                           @RequestParam String email,
+                                          @RequestParam String redirectTo,
                                           HttpServletResponse response) throws IOException {
         if(usersRepository.findByUsername(username) != null) {
             try {
@@ -121,11 +126,7 @@ public class MyController {
             addUserToDatabase(username,password,name,email,false);
             activeUser.getInstance().loginUser(usersRepository.findByUsername(username));
             try{
-                if(goToCartAfterLogin){
-                    response.sendRedirect("/shoppingcart");
-                } else {
-                    response.sendRedirect("/");
-                }
+                response.sendRedirect(redirectTo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,6 +144,8 @@ public class MyController {
     @PostMapping(path = "/userlogin")
     public @ResponseBody void userlogin (@RequestParam String username,
                                          @RequestParam String password,
+                                         @RequestParam String redirectTo,
+                                         Model model,
                                          HttpServletResponse response) throws IOException {
         // logout current user
         activeUser.getInstance().logoutUser();
@@ -168,6 +171,7 @@ public class MyController {
         if(!validPassword) {
             // add code to deal with an invalid username or password
             try{
+                this.redirectTo = redirectTo;
                 response.sendRedirect("/login");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -177,12 +181,7 @@ public class MyController {
             Users u = usersRepository.findByUsername(username);
             activeUser.getInstance().loginUser(u);
             try {
-                if(goToCartAfterLogin){
-                    goToCartAfterLogin = false;
-                    response.sendRedirect("/shoppingcart");
-                } else {
-                    response.sendRedirect("/");
-                }
+                response.sendRedirect(redirectTo);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -46,7 +46,7 @@ public class ShoppingCartController {
 
             return "shoppingcart.html";
         } else {
-            goToCartAfterLogin = true;
+            model.addAttribute("goHereAfterLogin","/shoppingcart");
             return "login.html";
         }
     }
