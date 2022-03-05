@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Anansi Datasets</title>
+
+    <!-- Bootstrap CSS -->
+    <link th:href="@{../css/bootstrap.min.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{../css/isotope.css}" media="screen" />
+    <link rel="stylesheet" th:href="@{../js/fancybox/jquery.fancybox.css}" type="text/css" media="screen" />
+
+    <!-- Custom CSS -->
+    <link th:href="@{../css/style.css}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link th:href="@{../font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!--Animate css--> 
+    <link th:href="@{../css/animate.css}" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    </head>
+
+    <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand page-scroll" href="/">
+                        <i class="fa fa-cubes"></i>  <span class="light">Anansi</span> Data
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/#about">About</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/#datasets">Datasets</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/#team">Our team</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/shoppingcart">Shopping Cart</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/#location">Location</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Intro Header -->
+        <div class="jumbotron jumbotron-billboard">
+          <div class="img"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center intro-body">
+                      <h2 th:if="${exists}" th:text="${asset.getAssetname()}" class="brand-heading-secondary"></h2>
+                      <h2 th:unless="${exists}" class="brand-heading-secondary">Dataset Does Not Exist</h2>
+
+                        <a href="/" class="btn btn-default btn-lg">Back to Main Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <th:block th:if="${exists}">
+                    <div class="col-md-6 dataitem-description">
+                        <p>Category: <strong th:text="${asset.getAsset_type().getTypename()}"></strong></p>
+                        <p><strong>Description:</strong></br>
+                        <span th:text="${asset.getAssetdesc()}"></span></p>
+                        <p>Dataset Size: <strong th:text="${asset.getAssetsize()}"></strong></p>
+                        <p>Price Per Datapoint: <strong th:text="${asset.getAssetcost()}"></strong></p>
+                    </div>
+                    <th:block th:if="${loggedIn}">
+                        <div class="col-md-3 col-md-offset-2 data-order-section">
+                            <form method="POST" action="/add_data_cart">
+                                <label class="data-label" for="qty">Quantity:</label>
+                                <input class="data-input-text" type="number" name="qty" id="qty" min="1" th:max="${asset.getAssetsize()}" required />
+                                <input type="hidden" name="datasetID" th:value="${asset.getData_asset_id()}">
+                                <button type="submit">Add To Cart</button>
+                            </form>
+                        </div>
+                    </th:block>
+                    <th:block th:unless="${loggedIn}">
+                        <div class="col-md-3 col-md-offset-2 data-login-section">
+                            <button onclick="window.location.href='/login';">Login To Order</button>
+                        </div>
+                    </th:block>
+                </th:block>
+            </div>
+        </div>
+        <!-- <div class="container">
+            <div class="row">
+                <div class="col-md-4 filters">
+                    <input type="checkbox" class="all-check-box" checked id="0" />
+                    <label for="0">All</label>
+                    <th:block th:each="assetType: ${assetTypes}">
+                        <input type="checkbox" class="type-check-box" checked th:id="${assetType.getAsset_type_id()}" />
+                        <label th:for="${assetType.getAsset_type_id()}" th:text="${assetType.getTypename()}"></label>
+                    </th:block>
+                </div>
+                 <div class="col-md-8">
+                     <th:block th:each="dataAsset: ${dataAssets}">
+                         <div th:attr="data-type-id=${dataAsset.getAsset_Type().asset_type_id}">
+                             <h3 th:text="${dataAsset.getAssetname()}"></h3>
+                             <p th:text="${dataAsset.getAssetdesc()}"></p>
+                         </div>
+                     </th:block>
+                </div>
+            </div>
+        </div> -->
+            
+
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>Copyright &copy; Anansi 2022</p>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="js/jquery.easing.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="js/grayscale.js"></script>
+<!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><![endif]-->
+
+    <script src="js/jquery.isotope.min.js" type="text/javavscript"></script>
+    <script src="js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <script src="js/custom.js" type="text/javascript"></script>
+    <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/wow.js"></script> 
+    <!--JS script for checkboxes-->
+    <script src="js/datasets_all.js"></script>
+
+</body>
+
+</html>
