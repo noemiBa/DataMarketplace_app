@@ -112,7 +112,8 @@
                         <div class="col-md-3 col-md-offset-2 data-order-section">
                             <form method="POST" action="/add_data_cart">
                                 <label class="data-label" for="qty">Quantity:</label>
-                                <input class="data-input-text" type="number" name="qty" id="qty" min="1" th:max="${asset.getAssetsize()}" required />
+                                <!-- <input class="data-input-text" type="number" name="qty" id="qty" min="1" th:max="${asset.getAssetsize()}" required /> -->
+                                <span th:replace="quantity_control :: quantity_control(1, ${asset.getData_asset_id()})"></span>
                                 <input type="hidden" name="datasetID" th:value="${asset.getData_asset_id()}">
                                 <button type="submit">Add To Cart</button>
                             </form>

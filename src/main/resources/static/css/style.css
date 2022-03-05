@@ -677,7 +677,7 @@ color: black;
     }
 }
 
-.form-control {
+.form-control.payment-form {
     color: white;
     background-color: #223C60;
     border: 2px solid transparent;
@@ -686,7 +686,7 @@ color: black;
     vertical-align: middle
 }
 
-.form-control:focus {
+.form-control.payment-form:hover {
     color: white;
     background-color: #0C4160;
     border: 2px solid #2d4dda;

@@ -1,0 +1,20 @@
+<!DOCTYPE html> <!-- Fragment used in shoppingcart.html and view_data.html -->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="quantity_control(quantityValue, productID)">
+		<nav>
+			<ul class="pagination list-inline">
+				<li class="page-item">
+					<a class="page-link minusButton" href="" th:pid="${productID}"><b>-</b></a>
+				</li>
+				<li class="page-item">
+					<input type="text" th:value="${quantityValue}" class="form-control text-center" onkeydown="return false;" style="max-width: 55px; padding: 0px;" th:id="'quantity'+productID"/>
+				</li>
+				<li class="page-item">
+					<a class="page-link plusButton" href="" th:pid="${productID}"><b>+</b></a>
+				</li>
+			</ul>
+		</nav>	
+	</div>
+</body>
+</html>

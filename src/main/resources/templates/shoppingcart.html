@@ -125,18 +125,26 @@
                       <th scope="row" class="border-0">
                         <div class="p-2">
                           <div class="ml-3 d-inline-block align-middle">
-                            <h5> <a class="mb-0 text-dark d-inline-block align-middle text-muted"> <!-- Add link  th:href="@{${product.URI}}" th:title="@{product.getAssetname()}" target="_blank"-->[[${product.getAssetname()}]]</a></h5>
+                            <h5> <a class="mb-0 text-dark d-inline-block align-middle text-muted" th:href="@{${'/view_data/' + cartItem.getProduct().getData_asset_id()}}">[[${product.getAssetname()}]]</a></h5>
                             <p class="text-muted text-dark">[[${product.getAssetdesc()}]]</p>
                           </div>
                         </div>
                       </th>
                       <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]x&euro;[[${product.getAssetcost()}]] = &euro;[[${cartItem.getItemCostByQuantity()}]]</strong></td>
-                      <td class="border-0 align-middle text-muted"><strong><input type="Number" th:value="${cartItem.getQuantity()}" class="form-control"></strong></td><!-- [[${cartItem.getQuantity()}]] -->
+                      
+                      <td class="border-0 align-middle text-muted">
+                        <span th:replace="quantity_control :: quantity_control(${cartItem.getQuantity()}, ${cartItem.getProduct().getData_asset_id()})"></span>
+                      </td>
+                      
                       <td class="border-0 align-middle text-muted"><a href="#" class="text-dark"><a class="fa fa-trash" href=""></i></a></td>
                     </tr>
                 </th:block>    
               </tbody>
             </table>
+
+            <div th:if="${#lists.isEmpty(cartItems)}">
+                <h4 class="text-muted text-dark">Your have not chosen any products yet.</h4>
+            </div>
           </div>
           <!-- End -->
          </div>   
@@ -146,28 +154,28 @@
                 <p class="text-muted cart_subscript">
                 You are a few steps away from making a difference for your company. Enter your payment details below. </p>
                 <p>
-                    <div class="row">
+                    <div class="row" th:unless="${#lists.isEmpty(cartItems)}">
                         <div class="col" style="padding-left:0;">[[${totQuantity + " ITEMS"}]]</div>
                         <div class="col text-right">&euro;[[${totPrice}]]</div>
                     </div> 
                     <div class="col-12">
                         <div class="d-flex flex-column">
-                            <p class="text mb-1">Full Name</p> <input class="form-control mb-3" type="text" placeholder="Name" value="Some Name">
+                            <p class="text mb-1">Full Name</p> <input class="form-control payment-form mb-3" type="text" placeholder="Your Name">
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="d-flex flex-column">
-                            <p class="text mb-1">Card Number</p> <input class="form-control mb-3" type="text" placeholder="1234 5678 435678">
+                            <p class="text mb-1">Card Number</p> <input class="form-control payment-form mb-3" type="text" placeholder="1234 5678 435678">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="d-flex flex-column">
-                            <p class="text mb-1">Expiry</p> <input class="form-control mb-3" type="text" placeholder="MM/YYYY">
+                            <p class="text mb-1">Expiry</p> <input class="form-control payment-form mb-3" type="text" placeholder="MM/YYYY">
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="d-flex flex-column">
-                            <p class="text mb-1">CVV/CVC</p> <input class="form-control mb-3 pt-2 " type="password" placeholder="***">
+                            <p class="text mb-1">CVV/CVC</p> <input class="form-control payment-form mb-3 pt-2 " type="password" placeholder="***">
                         </div>
                     </div>
                     <div class="col-12">
