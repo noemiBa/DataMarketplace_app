@@ -121,7 +121,8 @@
                     </th:block>
                     <th:block th:unless="${loggedIn}">
                         <div class="col-md-3 col-md-offset-2 data-login-section">
-                            <button onclick="window.location.href='/login';">Login To Order</button>
+                            <!-- <button onclick="window.location.href='/login';">Login To Order</button> -->
+                            <button th:attr="onclick=|window.location.href='/login?after=%2fview_data%2f${asset.getData_asset_id()}'|"> Login To Order</button>
                         </div>
                     </th:block>
                 </th:block>

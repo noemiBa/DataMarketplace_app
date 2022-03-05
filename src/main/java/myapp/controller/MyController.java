@@ -51,10 +51,13 @@ public class MyController {
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(@RequestParam(required=false) String after, Model model) {
         model.addAttribute("invalidpassword",invalidPassword);
         model.addAttribute("usedusername",usedUsername);
         model.addAttribute("redirectTo",redirectTo);
+        System.out.println(after);
+        if (after != null)
+            model.addAttribute("goHereAfterLogin", after);
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             model.addAttribute("loginRouting","/adminlogin");
             model.addAttribute("loginstate","Admin Login");
