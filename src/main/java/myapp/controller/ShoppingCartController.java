@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 
 @Controller
@@ -53,32 +54,51 @@ public class ShoppingCartController {
 
     @PostMapping("/add_data_cart")
     public @ResponseBody Integer addToCard(
-                                        @RequestParam Integer qty,
-                                        @RequestParam Integer datasetID,
-                                        HttpServletResponse response) throws Exception {
+            @RequestParam Integer qty,
+            @RequestParam Integer datasetID,
+            HttpServletResponse response) throws Exception {
 
-        //if(!activeUser.getInstance().isActiveUserLoggedIn()) {
-            Users user = activeUser.getInstance().getActiveUser();
+        Users user = activeUser.getInstance().getActiveUser();
 
-            Integer addedQuantity = qty;
+        Integer addedQuantity = qty;
 
-            Data_assets asset = dataRepo.findById(datasetID).get();
-            CartItem cartItem = cartRepo.findByUserAndProduct(user, asset);
+        Data_assets asset = dataRepo.findById(datasetID).get();
+        CartItem cartItem = cartRepo.findByUserAndProduct(user, asset);
 
-            if (cartItem != null) { //check if item is already in cart
-                addedQuantity = cartItem.getQuantity() + qty;
-                cartItem.setQuantity(addedQuantity);
-            } else {
-                cartItem = new CartItem();
-                cartItem.setProduct(asset);
-                cartItem.setUser(user);
-                cartItem.setQuantity(qty);
-            }
+        if (cartItem != null) { //check if item is already in cart
+            addedQuantity = cartItem.getQuantity() + qty;
+            cartItem.setQuantity(addedQuantity);
+        } else {
+            cartItem = new CartItem();
+            cartItem.setProduct(asset);
+            cartItem.setUser(user);
+            cartItem.setQuantity(qty);
+        }
 
-            cartRepo.save(cartItem);
-            response.sendRedirect("/shoppingcart");
-        //}
+        cartRepo.save(cartItem);
+        response.sendRedirect("/shoppingcart");
         return addedQuantity;
     }
-    
+
+    @Transactional
+    @PostMapping("/update_cart_quantity")
+    public @ResponseBody String updateQuantity(
+            @RequestParam Integer qty,
+            @RequestParam Integer productID,
+            HttpServletResponse response) throws Exception {
+
+        Users user = activeUser.getInstance().getActiveUser();
+
+        float subtotal = cartServices.updateQuantity(productID, qty, user);
+
+        Data_assets asset = dataRepo.findById(productID).get();
+        CartItem cartItem = cartRepo.findByUserAndProduct(user, asset);
+        cartItem.setQuantity(qty);
+        cartRepo.save(cartItem);
+
+        response.sendRedirect("/shoppingcart");
+
+        return String.valueOf(subtotal);
+    }
+
 }

@@ -51,7 +51,10 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public Float getItemCostByQuantity() {
-        return quantity*product.getAssetcost();
+    public Double getItemCostByQuantity() {
+        Double subtotal = quantity* (double) this.product.getAssetcost();
+        int temp = (int)(subtotal*100.0); //get Double to two decimal places
+        subtotal = ((double)temp)/100.0;
+        return subtotal;
     }
 }

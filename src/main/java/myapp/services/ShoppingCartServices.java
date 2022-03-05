@@ -1,8 +1,10 @@
 package myapp.services;
 
 import myapp.model.CartItem;
+import myapp.model.Data_assets;
 import myapp.model.Users;
 import myapp.repository.CartItemRepository;
+import myapp.repository.Data_assetsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ public class ShoppingCartServices {
 
     @Autowired
     private CartItemRepository cartRepository;
+
+    @Autowired
+    private Data_assetsRepository dataRepository;
 
     public List<CartItem> listCartItems(Users user) {
         return cartRepository.findByUser(user);
@@ -32,5 +37,13 @@ public class ShoppingCartServices {
         List<CartItem> userItems = cartRepository.findByUser(user);
         Integer totalQuantity = userItems.stream().mapToInt(item -> item.getQuantity()).sum();
         return totalQuantity;
+    }
+
+    public float updateQuantity(Integer productId, Integer quantity, Users user) {
+        cartRepository.updateQuantity(quantity, productId, user.getId());
+        Data_assets product = dataRepository.findById(productId).get();
+
+        float subtotal = product.getAssetcost() * quantity;
+        return subtotal;
     }
 }
