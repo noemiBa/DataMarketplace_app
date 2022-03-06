@@ -26,9 +26,7 @@ public class Data_assets {
 		return data_asset_id;
 	}
 
-	public String getAssetname() {
-		return assetname;
-	}
+	public String getAssetname() { return assetname; }
 
 	public Float getAssetcost() {
 		return assetcost;

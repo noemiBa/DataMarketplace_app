@@ -163,6 +163,7 @@ public class MyController {
             } else if (u.getPassword().compareTo(password) == 0) {
                 validPassword = true;
                 invalidPassword = false;
+
             } else {
                 invalidPassword = true;
             }
@@ -225,7 +226,7 @@ public class MyController {
         } else {
             activeUser.getInstance().loginUser(u);
             try {
-                response.sendRedirect("/");
+                response.sendRedirect("/adminportal");
             } catch (IOException e) {
                 e.printStackTrace();
             }
