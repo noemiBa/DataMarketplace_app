@@ -100,6 +100,11 @@
 
         <div class="container">
             <div class="row">
+                <div class="col-md-3 data-back-section">
+                    <button onclick="window.location.href='/datasets_all'"><span class="fas fa-arrow-left"></span> All Datasets</button>
+                </div>
+            </div>
+            <div class="row">
                 <th:block th:if="${exists}">
                     <div class="col-md-6 dataitem-description">
                         <p>Category: <strong th:text="${asset.getAsset_type().getTypename()}"></strong></p>
