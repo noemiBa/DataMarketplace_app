@@ -30,7 +30,8 @@ public class MyController {
     public String index(Model model) {
         // Grab featured datasets (Max 4)
         List<Data_assets> featuredAssets = data_assetsRepo.findByFeaturedTrue();
-        int count = Math.max(4, featuredAssets.size());
+        featuredAssets.removeIf(asset -> !asset.isActive());
+        int count = Math.min(4, featuredAssets.size());
         // Send count and list to thymeleaf in index
         model.addAttribute("featuredAssets", featuredAssets);
         model.addAttribute("featuredCount", count);
