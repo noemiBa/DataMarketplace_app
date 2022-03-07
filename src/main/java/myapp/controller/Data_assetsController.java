@@ -75,32 +75,36 @@ public class Data_assetsController {
 										 Float assetcost,
 										 Integer assetsize,
 										 String assetdesc,
-										 Boolean featured){
+										 Boolean featured,
+										 Boolean active){
 		Data_assets asset = data_assetsRepo.getOne(dataId);
 		asset.setAssetname(assetname);
 		asset.setAssetcost(assetcost);
 		asset.setAssetsize(assetsize);
 		asset.setAssetdesc(assetdesc);
 		asset.setFeatured(featured);
+		asset.setActive(active);
 		data_assetsRepo.save(asset);
 	}
 
 	@PostMapping("/update_data_asset_db")
-	public @ResponseBody void updateDataAssetDB(@RequestParam String dataId,
+	public @ResponseBody void updateDataAssetDB(@RequestParam String assetid,
 												@RequestParam String assetname,
 												@RequestParam String assetcost,
 												@RequestParam String assetsize,
 												@RequestParam String assetdesc,
 												@RequestParam String featured,
+												@RequestParam String active,
 												Model model,
 												HttpServletResponse response) throws Exception {
-		int idNum = Integer.parseInt(dataId);
+		int idNum = Integer.parseInt(assetid);
 		float cost = Float.parseFloat(assetcost);
 		int size = Integer.parseInt(assetsize);
 		boolean isFeatured = Boolean.parseBoolean(featured);
-		updateTheDataAssetTable(idNum,assetname,cost,size,assetdesc,isFeatured);
+		boolean isActive = Boolean.parseBoolean(active);
+		updateTheDataAssetTable(idNum,assetname,cost,size,assetdesc,isFeatured,isActive);
 		try {
-			response.sendRedirect("/adminportal");
+			response.sendRedirect("/update_data/"+idNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

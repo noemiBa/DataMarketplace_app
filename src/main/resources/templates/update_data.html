@@ -132,14 +132,15 @@
             </div>
 
                 <div class="col-md-3 col-md-offset-2 data-order-section">
-                    <form method="POST" action="/add_data_cart">
+                    <form method="POST" action="/update_data_asset_db">
                         <input type="text" name="assetid" th:value="${asset.getData_asset_id()}" style="display: none;">
-                        <input type="text" name="assetname" th:placeholder="${asset.getAssetname()}">
-                        <input type="text" name="assetcost" th:placeholder="${asset.getAssetcost()}">
-                        <input type="text" name="assetsize" th:placeholder="${asset.getAssetsize()}">
+                        <input type="text" name="assetname" th:value="${asset.getAssetname()}">
+                        <input type="text" name="assetcost" th:value="${asset.getAssetcost()}">
+                        <input type="text" name="assetsize" th:value="${asset.getAssetsize()}">
                         <textarea name="assetdesc" th:text="${asset.getAssetdesc()}">
                         </textarea>
-                        <input type="text" name="featured" th:placeholder="${asset.isFeatured()}">
+                        <input type="text" name="featured" th:value="${asset.isFeatured()}">
+                        <input type="text" name="active" th:value="${asset.isActive()}">
 
 
 <!--                        <label class="data-label" for="qty">Quantity:</label>-->

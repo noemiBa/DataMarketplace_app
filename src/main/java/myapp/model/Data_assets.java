@@ -16,6 +16,7 @@ public class Data_assets {
 	private Integer assetsize;
 	private String assetdesc;
 	private Boolean featured;
+	private Boolean active;
 	//private Integer asset_type_id;
 	@ManyToOne
 	@JoinColumn(name = "asset_type_id")
@@ -48,6 +49,8 @@ public class Data_assets {
 		return asset_type;
 	}
 
+	public Boolean isActive() { return active; }
+
 	// public Integer getAsset_type_id() {
 	// 	return asset_type_id;
 	// }
@@ -79,6 +82,8 @@ public class Data_assets {
 	public void setAsset_type(Asset_types asset_type) {
 		this.asset_type = asset_type;
 	}
+
+	public void setActive(Boolean isActive) { this.active = isActive;}
 
 
 
