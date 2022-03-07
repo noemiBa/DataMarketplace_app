@@ -112,6 +112,7 @@
                     <h3 th:text="${dataAsset.getAssetname()}"></h3>
                     <p th:text="${dataAsset.getAssetdesc()}"></p>
                     <a th:href="@{${'/update_data/' + dataAsset.getData_asset_id()}}">Update Dataset</a>
+                    <p th:if="${!dataAsset.isActive()}" style="color: red;">Dataset is not-active.</p>
                 </div>
             </th:block>
         </div>

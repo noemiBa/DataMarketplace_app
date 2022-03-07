@@ -108,10 +108,12 @@
                 </div>
                  <div class="col-md-8 all-data-assets">
                      <th:block th:each="dataAsset: ${dataAssets}">
-                         <div class="all-data-asset" th:attr="data-type-id=${dataAsset.getAsset_type().asset_type_id}">
-                             <h3 th:text="${dataAsset.getAssetname()}"></h3>
-                             <p th:text="${dataAsset.getAssetdesc()}"></p>
-                             <a th:href="@{${'/view_data/' + dataAsset.getData_asset_id()}}">Find Out More</a>
+                         <div th:if="${dataAsset.isActive()}">
+                            <div class="all-data-asset" th:attr="data-type-id=${dataAsset.getAsset_type().asset_type_id}">
+                                 <h3 th:text="${dataAsset.getAssetname()}"></h3>
+                                 <p th:text="${dataAsset.getAssetdesc()}"></p>
+                                 <a th:href="@{${'/view_data/' + dataAsset.getData_asset_id()}}">Find Out More</a>
+                             </div>
                          </div>
                      </th:block>
                 </div>
