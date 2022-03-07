@@ -74,6 +74,11 @@ public class MyController {
     @GetMapping("/adminlogin")
     public String adminlogin(Model model) {
         model.addAttribute("invalidpassword",invalidPassword);
+        if(activeUser.getInstance() == null
+                || !(activeUser.getInstance().getActiveUser().isAdmin())) {
+            return "index.html";
+        }
+
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             model.addAttribute("loginRouting","/login");
             model.addAttribute("loginstate","Login");
@@ -97,6 +102,9 @@ public class MyController {
 
     @GetMapping("/newuser")
     public String newuser() { return "newuser.html"; }
+
+    @GetMapping("/add_new_asset")
+    public String addnewasset() { return "add_new_asset.html"; }
 
     @Autowired
     private UsersRepository usersRepository;

@@ -16,6 +16,7 @@ import myapp.repository.Asset_typesRepository;
 import myapp.model.Data_assets;
 import myapp.repository.Data_assetsRepository;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -77,7 +78,8 @@ public class Data_assetsController {
 										 String assetdesc,
 										 Boolean featured,
 										 Boolean active){
-		Data_assets asset = data_assetsRepo.getOne(dataId);
+		Optional<Data_assets> assetOption = data_assetsRepo.findById(dataId);
+		Data_assets asset = assetOption.get();
 		asset.setAssetname(assetname);
 		asset.setAssetcost(assetcost);
 		asset.setAssetsize(assetsize);
@@ -85,6 +87,37 @@ public class Data_assetsController {
 		asset.setFeatured(featured);
 		asset.setActive(active);
 		data_assetsRepo.save(asset);
+	}
+
+	@PostMapping("/add_new_dataset")
+	public @ResponseBody void addNewDataAsset(@RequestParam String assetname,
+											  @RequestParam String assetcost,
+											  @RequestParam String assetsize,
+											  @RequestParam String assetdesc,
+											  @RequestParam String featured,
+											  @RequestParam String active,
+											  @RequestParam String typeid,
+											  Model model,
+											  HttpServletResponse response) throws Exception {
+		float cost = Float.parseFloat(assetcost);
+		int size = Integer.parseInt(assetsize);
+		boolean isFeatured = Boolean.parseBoolean(featured);
+		boolean isActive = Boolean.parseBoolean(active);
+		Asset_types type = asset_typesRepo.getOne(Integer.parseInt(typeid));
+		Data_assets asset = new Data_assets();
+		asset.setAssetname(assetname);
+		asset.setAssetcost(cost);
+		asset.setAssetsize(size);
+		asset.setAssetdesc(assetdesc);
+		asset.setFeatured(isFeatured);
+		asset.setActive(isActive);
+		asset.setAsset_type(type);
+		data_assetsRepo.save(asset);
+		try {
+			response.sendRedirect("/adminportal");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@PostMapping("/update_data_asset_db")

@@ -111,9 +111,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center intro-body">
-                <h2 th:if="${exists}" th:text="${asset.getAssetname()}" class="brand-heading-secondary"></h2>
-                <h2 th:unless="${exists}" class="brand-heading-secondary">Dataset Does Not Exist</h2>
-
+                <h2 class="brand-heading-secondary">Add New Dataset</h2>
                 <a href="/adminportal" class="btn btn-default btn-lg">Back to Asset List</a>
             </div>
         </div>
@@ -122,31 +120,31 @@
 
 <div class="container">
     <div class="row">
-        <th:block th:if="${exists}">
-            <div class="col-md-6 dataitem-description">
-                <p>Category: <strong th:text="${asset.getAsset_type().getTypename()}"></strong></p>
-                <p><strong>Description:</strong></br>
-                    <span th:text="${asset.getAssetdesc()}"></span></p>
-                <p>Dataset Size: <strong th:text="${asset.getAssetsize()}"></strong></p>
-                <p>Price Per Datapoint: <strong th:text="${asset.getAssetcost()}"></strong></p>
+        <div class="col-md-3 col-md-offset-2 data-order-section">
+            <form method="POST" action="/add_new_dataset">
+                 <input type="text" name="assetname" placeholder="Dataset Name" required>
+                 <input type="text" name="assetcost" placeholder="Dataset Cost" required>
+                 <input type="text" name="assetsize" placeholder="Datset Size" required>
+                 <textarea name="assetdesc" placeholder="Dataset Description" required></textarea>
+                 <select name="featured">
+                    <option value="false">Not Featured</option>
+                    <option value="true">Featured</option>
+                 </select>
+                 <select name="active">
+                    <option value="true">Active</option>
+                    <option value="true">Not Active</option>
+                 </select>
+<!--                <input type="text" name="featured" value="false" required>-->
+<!--                 <input type="text" name="active" value="true" required>-->
+                 <select name="typeid">
+                     <option value="1">Marketing</option>
+                     <option value="2">Financial</option>
+                     <option value="3">Environment</option>
+                     <option value="4">World Domination</option>
+                 </select>
+                <button type="submit">Add Dataset</button>
+                </form>
             </div>
-
-                <div class="col-md-3 col-md-offset-2 data-order-section">
-                    <form method="POST" action="/update_data_asset_db">
-                        <input type="text" name="assetid" th:value="${asset.getData_asset_id()}" style="display: none;">
-                        <input type="text" name="assetname" th:value="${asset.getAssetname()}">
-                        <input type="text" name="assetcost" th:value="${asset.getAssetcost()}">
-                        <input type="text" name="assetsize" th:value="${asset.getAssetsize()}">
-                        <textarea name="assetdesc" th:text="${asset.getAssetdesc()}">
-                        </textarea>
-                        <input type="text" name="featured" th:value="${asset.isFeatured()}">
-                        <input type="text" name="active" th:value="${asset.isActive()}">
-                        <button type="submit">Update Dataset</button>
-                    </form>
-                </div>
-
-
-        </th:block>
     </div>
 </div>
 
