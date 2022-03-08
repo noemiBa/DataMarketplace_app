@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.List;
@@ -65,6 +69,17 @@ public class OrdersController {
         cartRepo.deleteByCustomer(user.getId());
 
         return "thankyou.html";
+    }
+
+    @Transactional
+    @PostMapping("/change_order_status")
+    public @ResponseBody void changeOrderStatus(@RequestParam Integer orderID, @RequestParam String newStatus, HttpServletResponse response) throws Exception {
+
+        Users user = activeUser.getInstance().getActiveUser();
+
+        ordersRepo.updateStatus(newStatus, orderID, user.getId());
+
+        response.sendRedirect("/");
     }
 
 }
