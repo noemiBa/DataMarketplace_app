@@ -197,9 +197,11 @@
                             <p class="text mb-1">CVV/CVC</p> <input class="form-control payment-form mb-3 pt-2 " type="password" placeholder="***">
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="btn btn-default btn-lg mb-3"> <span class="ps-3">Pay now</span> <span class="fas fa-arrow-right"></span> </div>
-                    </div>
+                    <form method="GET" action="/order_paid">
+                        <div class="col-12">
+                            <button type="submit" name="update">Pay now</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
