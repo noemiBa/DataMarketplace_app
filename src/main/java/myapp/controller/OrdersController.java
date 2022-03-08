@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.List;
 
@@ -32,13 +33,14 @@ public class OrdersController {
     @Autowired
     private Order_itemsRepository order_itemsRepo;
 
+    @Transactional
     @GetMapping("/order_paid")
     public String createOrder(Model model) {
         Users user = activeUser.getInstance().getActiveUser();
         List<CartItem> cartItems = cartServices.listCartItems(user);
         Double totPrice = cartServices.getTotalPrice(user);
-        //Integer totQuantity = cartServices.getTotalQuantity(user);
 
+        //Add to Orders table
         Orders order = new Orders();
         order.setUser(user);
         order.setStatus("New");
@@ -48,6 +50,7 @@ public class OrdersController {
         order.setTotPrice(totPrice.floatValue());
         ordersRepo.save(order);
 
+        //Add to order_items table
         for (int i = 0; i<cartItems.size(); i++) {
             Order_items item = new Order_items();
             item.setOrder(order);
@@ -58,9 +61,10 @@ public class OrdersController {
             order_itemsRepo.save(item);
         }
 
-        //NEED TO EMPTY SHOPPING CART TABLE FOR USER HERE. 
+        //Delete all cart items for active user after payment received.
+        cartRepo.deleteByCustomer(user.getId());
 
-        return "shoppingcart.html";
+        return "thankyou.html";
     }
 
 }
