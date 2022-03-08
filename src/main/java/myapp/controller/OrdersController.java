@@ -9,15 +9,14 @@ import myapp.services.ShoppingCartServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Controller
 public class OrdersController {
@@ -80,6 +79,47 @@ public class OrdersController {
         ordersRepo.updateStatus(newStatus, orderID, user.getId());
 
         response.sendRedirect("/");
+    }
+
+    @GetMapping("/view_order/{id}")
+    public String viewData(@PathVariable("id") String dataId, Model model) {
+        // Setup Links for login/ out
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
+        }
+        int idNum;
+        // Convert id to number. If not a number return non existant view
+        try {
+            idNum = Integer.parseInt(dataId);
+        } catch(NumberFormatException nfe) {
+            model.addAttribute("exists", false);
+            return "view_order.html";
+        }
+
+        Optional<Orders> orderOption = ordersRepo.findById(idNum);
+        Orders order;
+        try {
+            order = orderOption.get();
+        } catch(NoSuchElementException nsee) {
+            model.addAttribute("exists", false);
+            return "view_order.html";
+        }
+
+        List<Order_items> orderItems = order_itemsRepo.listOrderItemsByOrder(order);
+        Integer totQuantity = orderItems.stream().mapToInt(item -> item.getQuantity()).sum();
+
+        model.addAttribute("exists", true);
+        model.addAttribute("order", order);
+        model.addAttribute("orderItems", orderItems);
+        model.addAttribute("totQuantity", totQuantity);
+
+        return "view_order.html";
     }
 
 }

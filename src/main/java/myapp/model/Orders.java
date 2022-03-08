@@ -1,6 +1,7 @@
 package myapp.model;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.Date;
 
 @Entity
@@ -23,8 +24,9 @@ public class Orders {
 
     public Orders() {}
 
-    public Float getTotPrice() {
-        return totPrice;
+    public double getTotPrice() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        return Double.parseDouble(df.format(totPrice));
     }
 
     public void setTotPrice(Float totPrice) {
