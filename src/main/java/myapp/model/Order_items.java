@@ -1,34 +1,60 @@
 package myapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@Table(name="order_items")
 public class Order_items {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer order_id;
-    private Integer item_id;
+    private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Orders order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Data_assets product;
+
+    private Integer itemNumber;
     private Integer quantity;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getItemNumber() {
+        return itemNumber;
+    }
+
+    public void setItemNumber(Integer itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
     private Float price;
 
-    public Integer getOrder_id() {
-        return order_id;
+    public Orders getOrder() {
+        return order;
     }
 
-    public void setOrder_id(Integer order_id) {
-        this.order_id = order_id;
+    public void setOrder(Orders order) {
+        this.order = order;
     }
 
-    public Integer getItem_id() {
-        return item_id;
+    public Data_assets getProduct() {
+        return product;
     }
 
-    public void setItem_id(Integer item_id) {
-        this.item_id = item_id;
+    public void setProduct(Data_assets product) {
+        this.product = product;
     }
 
     public Integer getQuantity() {

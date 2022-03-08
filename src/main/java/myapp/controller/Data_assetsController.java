@@ -60,7 +60,9 @@ public class Data_assetsController {
 
 	@GetMapping("/adminportal")
 	public String adminportal(Model model) {
-		// send down types for filtering and assets
+		if(activeUser.getInstance().isActiveUserLoggedIn() || !(activeUser.getInstance().getActiveUser().isAdmin())){
+			return "adminlogin.html";
+		} else {
 		model.addAttribute("assetTypes", asset_typesRepo.findAll());
 		model.addAttribute("dataAssets", data_assetsRepo.findAll());
 		if(activeUser.getInstance().isActiveUserLoggedIn()){
@@ -70,7 +72,7 @@ public class Data_assetsController {
 			model.addAttribute("loginRouting","/logout");
 			model.addAttribute("loginstate","Log Out");
 		}
-		return "adminportal.html";
+		return "adminportal.html"; }
 	}
 
 	private void updateTheDataAssetTable(Integer dataId,

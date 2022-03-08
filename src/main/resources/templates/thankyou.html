@@ -69,7 +69,7 @@
                     <a class="page-scroll" href="/#team">Our team</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/logout">Log Out</a>
+                    <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
                 </li>
                 <li>
                     <a class="page-scroll" href="/#location">Location</a>
@@ -87,36 +87,19 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center intro-body">
-                <h2 class="brand-heading-secondary">Add New User: Manual Method</h2>
-                <a href="/adminportal" class="btn btn-default btn-lg">Back to Admin Portal</a>
+                <h2 class="brand-heading-secondary">Thanks for your order.</h2>
+                <a href="/" class="btn btn-default btn-lg">Back to Main Page</a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-md-3 col-md-offset-2 data-order-section">
-    <div class="login">
-        <form method="POST" action="/add_new_user_manual">
-            <input type="text" name="username" placeholder="User name" required="">
-            <input type="password" name="password" placeholder="Password" required="">
-            <input type="text" name="name" placeholder="Full Name" required="">
-            <input type="email" name="email" placeholder="Email" required="">
-            <select name="admin">
-                <option value="false">Standard User</option>
-                <option value="true">Admin User</option>
-            </select>
-            <select name="active">
-                <option value="true">Active</option>
-                <option value="false">Not Active</option>
-            </select>
-            <p style="color: red; font-size: 0.75em; text-align: center;" th:if="${usedusername}">
-                Username is already taken. Please try again.
-            </p>
-            <button type="submit">Add User</button>
-        </form>
-    </div>
-
-
+    <section class="container content-section text-center">
+        <h3>We have recieved your order.</h3>
+        <p>You can review your order here.</p>
+        <a href="/" class="btn btn-default btn-lg">Review Order</a>
+        <a href="/viewalldata" class="btn btn-default btn-lg">Continue Shopping</a>
+    </section>
 </div>
 
 

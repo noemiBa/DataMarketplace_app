@@ -14,6 +14,6 @@ $(document).ready(function() {
 		quantityInput = $("#quantity" + productId);
 		
 		newQuantity = parseInt(quantityInput.val())+1;
-		if (newQuantity < 100) quantityInput.val(newQuantity);
+		quantityInput.val(newQuantity);
 	});
 });

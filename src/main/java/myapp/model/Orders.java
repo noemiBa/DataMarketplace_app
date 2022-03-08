@@ -1,21 +1,35 @@
 package myapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name="orders")
 public class Orders {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer order_id;
-    private Integer user_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
     private Date date;
+
     private String status;
 
+    private Float totPrice;
+
     public Orders() {}
+
+    public Float getTotPrice() {
+        return totPrice;
+    }
+
+    public void setTotPrice(Float totPrice) {
+        this.totPrice = totPrice;
+    }
 
     public String getStatus() {
         return status;
@@ -25,12 +39,12 @@ public class Orders {
         this.status = status;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Users getUser() {
+        return user;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUser(Users user) {
+        this.user = user;
     }
 
     public Date getDate() {
