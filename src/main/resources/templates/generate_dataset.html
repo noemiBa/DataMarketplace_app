@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Dataset</title>
+</head>
+<body>
+  <h1>Create Your Dataset Here</h1>
+  <label for="name">Name of dataset</label>
+  <input id="name" class="name" type="text">
+  <label for="qty">How Many datapoints do you want?</label>
+  <input id="qty" class="number" type="number" />
+  <button class="generateBtn">Data Me</button>
+  <!-- <button class="copy">Copy To Clipboard</button> -->
+  <pre>
+    <code>
+        <div class="output"></div>
+    </code>
+  </pre>
+  <script>
+    const generateBtn = document.querySelector('.generateBtn');
+    const numberInput = document.querySelector('.number');
+    const nameInput = document.querySelector('.name');
+    const output = document.querySelector('.output');
+    const copyBtn = document.querySelector('copy');
+
+    generateBtn.addEventListener('click', function(){
+      const qty = numberInput.value;
+      console.log(qty);
+      const dataArr = [];
+      for (let i = 0; i < qty; i++)
+        dataArr[i] = Math.random() * 1000;
+      const max = Math.max(...dataArr);
+      const min = Math.min(...dataArr);
+      const data = {
+        "name" : nameInput.value,
+        "min" : min,
+        "max" : max,
+        "values" : dataArr
+      };
+      const jsonout = JSON.stringify(data);
+      output.innerHTML = jsonout;
+      
+    });
+
+    copyBtn.addEventListener('click', function() {
+      output.select();
+      output.setSelectionRange(0, 99999); /* For mobile devices */
+
+   /* Copy the text inside the text field */
+    navigator.clipboard.writeText(output.value);
+    })
+  </script>
+</body>
+</html>

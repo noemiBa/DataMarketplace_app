@@ -30,7 +30,7 @@ public class MyController {
     public String index(Model model) {
         // Grab featured datasets (Max 4)
         List<Data_assets> featuredAssets = data_assetsRepo.findByFeaturedTrue();
-        featuredAssets.removeIf(asset -> !asset.isActive());
+        //featuredAssets.removeIf(asset -> !asset.isActive());
         int count = Math.min(4, featuredAssets.size());
         // Send count and list to thymeleaf in index
         model.addAttribute("featuredAssets", featuredAssets);
@@ -102,6 +102,9 @@ public class MyController {
 
     @GetMapping("/add_new_asset")
     public String addnewasset() { return "add_new_asset.html"; }
+
+    @GetMapping("/generate_dataset")
+    public String generate_dataset() {return "generate_dataset.html";}
 
     @Autowired
     private UsersRepository usersRepository;

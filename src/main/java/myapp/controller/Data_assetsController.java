@@ -15,9 +15,11 @@ import myapp.model.Asset_types;
 import myapp.repository.Asset_typesRepository;
 import myapp.model.Data_assets;
 import myapp.repository.Data_assetsRepository;
+import myapp.model.Dataset;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class Data_assetsController {
@@ -145,6 +147,12 @@ public class Data_assetsController {
 
 	@GetMapping("/view_data/{id}")
 	public String viewData(@PathVariable("id") String dataId, Model model) {
+		// TEST AREA
+		Dataset dataset = new Dataset();
+		dataset = Dataset.json2Java("globex.json", Dataset.class);
+		System.out.println(dataset.getName());
+
+
 		// Setup Links for login/ out
 		if(activeUser.getInstance().isActiveUserLoggedIn()){
 			model.addAttribute("loginRouting","/login");
@@ -214,4 +222,10 @@ public class Data_assetsController {
 
 
 	}
+
+
+
+
 }
+
+
