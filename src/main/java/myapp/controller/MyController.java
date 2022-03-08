@@ -26,6 +26,12 @@ public class MyController {
     private boolean invalidPassword = false;
     private boolean usedUsername = false;
 
+    @GetMapping("/thank_you")
+    public String viewAllUsers(Model model) {
+        // insert model attributes here
+        return "thankyou.html";
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         // Grab featured datasets (Max 4)
@@ -96,9 +102,6 @@ public class MyController {
             e.printStackTrace();
         }
     }
-
-    @GetMapping("/newuser")
-    public String newuser() { return "newuser.html"; }
 
     @GetMapping("/add_new_asset")
     public String addnewasset() { return "add_new_asset.html"; }
@@ -239,9 +242,55 @@ public class MyController {
         }
     }
 
+
+
     public int getIdFromUsername(String username){
         Users u = usersRepository.findByUsername(username);
         return u.getId();
+    }
+
+    @GetMapping("/newuser")
+    public String newuser(Model model) {
+        model.addAttribute("usedusername",usedUsername);
+        return "newuser.html"; }
+
+    @PostMapping(path = "/add_new_user_manual")
+    public @ResponseBody void addNewUserManual (@RequestParam String username,
+                                          @RequestParam String password,
+                                          @RequestParam String name,
+                                          @RequestParam String email,
+                                          @RequestParam String active,
+                                          @RequestParam String admin,
+                                          HttpServletResponse response) throws IOException {
+
+        if(usersRepository.findByUsername(username) != null) {
+            try {
+                usedUsername = true;
+                response.sendRedirect("/newuser");
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        } else {
+            boolean isActive = Boolean.parseBoolean(active);
+            boolean isAdmin = Boolean.parseBoolean(admin);
+            Users u = new Users();
+            u.setUsername(username);
+            u.setPassword(password);
+            u.setName(name);
+            u.setEmail(email);
+            u.setActive(isActive);
+            u.setAdmin(isAdmin);
+            usersRepository.save(u);
+            try {
+                usedUsername = false;
+                response.sendRedirect("/newuser");
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
+
+
     }
 
 }
