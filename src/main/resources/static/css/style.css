@@ -709,8 +709,19 @@ color: black;
   border: none;
 }
 
-/*.list-inline li{display:inline-block;}*/
+#quantityUl {
+  display: flex;
+  flex-direction: row;
+  padding: 0;  
+  align-items: flex-end; 
+  margin: 0;
+}
 
+.quantityInput {
+   width: 35px;
+   padding: 0px;
+   margin: 0;
+}
 
 /*Shopping cart*/
 

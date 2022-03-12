@@ -107,24 +107,25 @@
             <div class="table-responsive cart_table">
                 <table class="table">
                   <thead>
-                    <tr>
-                      <th scope="col" class="border-0 bg-light">
-                        <div class="p-2 px-3 text-uppercase">Product</div>
-                    </th>
-                    <th scope="col" class="border-0 bg-light">
-                        <div class="py-2 text-uppercase">Price</div>
-                    </th>
-                    <th scope="col" class="border-0 bg-light">
-                        <div class="py-2 text-uppercase">Quantity</div>
-                    </th>
-                    <th scope="col" class="border-0 bg-light">
-                        <div class="py-2 text-uppercase">Remove</div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <form method="POST" action="/update_cart">
+                        <tr>
+                        <th scope="col" class="border-0 bg-light">
+                            <div class="p-2 px-3 text-uppercase">Product</div>
+                        </th>
+                        <th scope="col" class="border-0 bg-light">
+                            <div class="py-2 text-uppercase">Price</div>
+                        </th>
+                        <th scope="col" class="border-0 bg-light">
+                            <div class="py-2 text-uppercase">Quantity</div>
+                        </th>
+                        <th scope="col" class="border-0 bg-light">
+                            <div class="py-2 text-uppercase">Remove</div>
+                        </th>
+                        </tr>
+                  </thead>
+                <tbody>
+                    <form method="POST" action="/update_cart">
                     <th:block th:each="cartItem: ${cartItems}">
+                        
                         <tr th:with="product = ${cartItem.getProduct()}">
                           <th scope="row" class="border-0">
                             <div class="p-2">
@@ -134,24 +135,25 @@
                                 <p class="text-muted text-dark">[[${product.getAssetdesc()}]]</p>
                             </div>
                         </div>
-
+                        
+                        <input type="hidden" name="productID" th:value="${cartItem.getProduct().getData_asset_id()}">
 
                         <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]x&euro;[[${product.getAssetcost()}]] <br>= &euro;
-                         <span class="productSubtotal">[[${cartItem.getItemCostByQuantity()}]]</span></strong></td>
-
-                         <input type="hidden" name="productID" th:value="${cartItem.getProduct().getData_asset_id()}">
-                         
-                         <td class="border-0 text-muted">
-                            <span th:replace="quantity_control :: quantity_control(${cartItem.getQuantity()}, ${cartItem.getProduct().getData_asset_id()})"></span>
+                         <span class="productSubtotal">[[${cartItem.getItemCostByQuantity()}]]</span></strong>
                         </td>
-                        
-                        
+
+                         
+                        <td class="border-0 text-muted">
+                            <span class="text-center center-block" th:replace="quantity_control :: quantity_control(${cartItem.getQuantity()}, ${cartItem.getProduct().getData_asset_id()})"></span>
+                        </td>
+
+
                         <td class="border-0 align-middle text-muted">
-                            <button type="submit" name="delete" style="color: black;" class="fabutton text-dark">
+                            <button type="submit" name="delete" style="color: black; margin: 0;" class="fabutton text-dark">
                                 <i class="fa fa-trash" href=""></i>
                             </button>    
                         </td>
-                        
+
 
                     </tr>
                     
@@ -165,8 +167,8 @@
         </div>
         <button type="submit" name="update">Update Cart</button>
     </form>   
-    
-    
+
+
 </div>
 <!-- End -->
 </div>   
