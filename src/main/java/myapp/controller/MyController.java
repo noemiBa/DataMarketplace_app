@@ -1,5 +1,6 @@
 package myapp.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import myapp.model.Data_assets;
 import myapp.model.Users;
 import myapp.model.activeUser;
@@ -118,7 +119,17 @@ public class MyController {
     }
 
     @GetMapping("/add_new_asset")
-    public String addnewasset() { return "add_new_asset.html"; }
+    public String addnewasset(Model model) {
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
+        }
+        return "add_new_asset.html"; }
 
     @GetMapping("/generate_dataset")
     public String generate_dataset() {return "generate_dataset.html";}
