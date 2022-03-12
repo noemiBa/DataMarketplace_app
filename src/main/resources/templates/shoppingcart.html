@@ -71,8 +71,11 @@
                         <li>
                             <a class="page-scroll" href="/logout">Log Out</a>
                         </li>
-                        <li>
+                        <li th:unless="${loggedIn}">
                             <a class="page-scroll" href="/#location">Location</a>
+                        </li>
+                        <li th:if="${loggedIn}">
+                            <a class="page-scroll" href="/viewallorders">View Orders</a>
                         </li>
                     </ul>
                 </div>
@@ -101,138 +104,138 @@
             <div class="col align-self-center text-muted">[[${totQuantity + " items"}]]</div>
             
             <!-- Shopping cart table -->
-          <div class="table-responsive cart_table">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col" class="border-0 bg-light">
-                    <div class="p-2 px-3 text-uppercase">Product</div>
-                  </th>
-                  <th scope="col" class="border-0 bg-light">
-                    <div class="py-2 text-uppercase">Price</div>
-                  </th>
-                  <th scope="col" class="border-0 bg-light">
-                    <div class="py-2 text-uppercase">Quantity</div>
-                  </th>
-                  <th scope="col" class="border-0 bg-light">
-                    <div class="py-2 text-uppercase">Remove</div>
-                  </th>
+            <div class="table-responsive cart_table">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="border-0 bg-light">
+                        <div class="p-2 px-3 text-uppercase">Product</div>
+                    </th>
+                    <th scope="col" class="border-0 bg-light">
+                        <div class="py-2 text-uppercase">Price</div>
+                    </th>
+                    <th scope="col" class="border-0 bg-light">
+                        <div class="py-2 text-uppercase">Quantity</div>
+                    </th>
+                    <th scope="col" class="border-0 bg-light">
+                        <div class="py-2 text-uppercase">Remove</div>
+                    </th>
                 </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
                 <form method="POST" action="/update_cart">
-                <th:block th:each="cartItem: ${cartItems}">
-                    <tr th:with="product = ${cartItem.getProduct()}">
-                      <th scope="row" class="border-0">
-                        <div class="p-2">
-                          <div class="ml-3 d-inline-block align-middle">
+                    <th:block th:each="cartItem: ${cartItems}">
+                        <tr th:with="product = ${cartItem.getProduct()}">
+                          <th scope="row" class="border-0">
+                            <div class="p-2">
+                              <div class="ml-3 d-inline-block align-middle">
 
-                            <h5> <a class="mb-0 text-dark d-inline-block align-middle text-muted" th:href="@{${'/view_data/' + cartItem.getProduct().getData_asset_id()}}">[[${product.getAssetname()}]]</a></h5>
-                            <p class="text-muted text-dark">[[${product.getAssetdesc()}]]</p>
-                          </div>
+                                <h5> <a class="mb-0 text-dark d-inline-block align-middle text-muted" th:href="@{${'/view_data/' + cartItem.getProduct().getData_asset_id()}}">[[${product.getAssetname()}]]</a></h5>
+                                <p class="text-muted text-dark">[[${product.getAssetdesc()}]]</p>
+                            </div>
                         </div>
 
 
-                      <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]x&euro;[[${product.getAssetcost()}]] <br>= &euro;
-                       <span class="productSubtotal">[[${cartItem.getItemCostByQuantity()}]]</span></strong></td>
+                        <td class="border-0 align-middle text-muted"><strong>[[${cartItem.getQuantity()}]]x&euro;[[${product.getAssetcost()}]] <br>= &euro;
+                         <span class="productSubtotal">[[${cartItem.getItemCostByQuantity()}]]</span></strong></td>
 
-                       <input type="hidden" name="productID" th:value="${cartItem.getProduct().getData_asset_id()}">
-                      
-                      <td class="border-0 text-muted">
-                        <span th:replace="quantity_control :: quantity_control(${cartItem.getQuantity()}, ${cartItem.getProduct().getData_asset_id()})"></span>
-                      </td>
-                      
-                      
+                         <input type="hidden" name="productID" th:value="${cartItem.getProduct().getData_asset_id()}">
+                         
+                         <td class="border-0 text-muted">
+                            <span th:replace="quantity_control :: quantity_control(${cartItem.getQuantity()}, ${cartItem.getProduct().getData_asset_id()})"></span>
+                        </td>
+                        
+                        
                         <td class="border-0 align-middle text-muted">
                             <button type="submit" name="delete" style="color: black;" class="fabutton text-dark">
                                 <i class="fa fa-trash" href=""></i>
                             </button>    
                         </td>
-                    
+                        
 
                     </tr>
                     
                 </th:block> 
                 
-              </tbody>
-            </table>
+            </tbody>
+        </table>
 
-            <div th:if="${#lists.isEmpty(cartItems)}">
-                <h4 class="text-muted text-dark">Your have not chosen any products yet.</h4>
-            </div>
-                <button type="submit" name="update">Update Cart</button>
-            </form>   
-                
-                
-          </div>
-          <!-- End -->
-         </div>   
+        <div th:if="${#lists.isEmpty(cartItems)}">
+            <h4 class="text-muted text-dark">Your have not chosen any products yet.</h4>
+        </div>
+        <button type="submit" name="update">Update Cart</button>
+    </form>   
+    
+    
+</div>
+<!-- End -->
+</div>   
 
-            <div class="col-sm-4 cart_payment">
-                <h2>Payment details</h2>
-                <p class="text-muted cart_subscript">
-                You are a few steps away from making a difference for your company. Enter your payment details below. </p>
-                <p>
-                    <div class="row" th:unless="${#lists.isEmpty(cartItems)}">
-                        <div class="col" style="padding-left:0;">[[${totQuantity + " ITEMS"}]]</div>
-                        <div class="col text-right" id="totalAmount"></div>
-                    </div> 
-                    <div class="col-12">
-                        <div class="d-flex flex-column">
-                            <p class="text mb-1">Full Name</p> <input class="form-control payment-form mb-3" type="text" placeholder="Your Name">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="d-flex flex-column">
-                            <p class="text mb-1">Card Number</p> <input class="form-control payment-form mb-3" type="text" placeholder="1234 5678 435678">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex flex-column">
-                            <p class="text mb-1">Expiry</p> <input class="form-control payment-form mb-3" type="text" placeholder="MM/YYYY">
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="d-flex flex-column">
-                            <p class="text mb-1">CVV/CVC</p> <input class="form-control payment-form mb-3 pt-2 " type="password" placeholder="***">
-                        </div>
-                    </div>
-                    <form method="GET" action="/order_paid">
-                        <div class="col-12">
-                            <button type="submit" name="update">Pay now</button>
-                        </div>
-                    </form>
-                </div>
+<div class="col-sm-4 cart_payment">
+    <h2>Payment details</h2>
+    <p class="text-muted cart_subscript">
+    You are a few steps away from making a difference for your company. Enter your payment details below. </p>
+    <p>
+        <div class="row" th:unless="${#lists.isEmpty(cartItems)}">
+            <div class="col" style="padding-left:0;">[[${totQuantity + " ITEMS"}]]</div>
+            <div class="col text-right" id="totalAmount"></div>
+        </div> 
+        <div class="col-12">
+            <div class="d-flex flex-column">
+                <p class="text mb-1">Full Name</p> <input class="form-control payment-form mb-3" type="text" placeholder="Your Name">
             </div>
         </div>
-
-
-
-
-        <!-- Footer -->
-        <footer>
-            <div class="container text-center">
-                <p>Copyright &copy; Anansi 2022</p>
+        <div class="col-12">
+            <div class="d-flex flex-column">
+                <p class="text mb-1">Card Number</p> <input class="form-control payment-form mb-3" type="text" placeholder="1234 5678 435678">
             </div>
-        </footer>
+        </div>
+        <div class="col-6">
+            <div class="d-flex flex-column">
+                <p class="text mb-1">Expiry</p> <input class="form-control payment-form mb-3" type="text" placeholder="MM/YYYY">
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="d-flex flex-column">
+                <p class="text mb-1">CVV/CVC</p> <input class="form-control payment-form mb-3 pt-2 " type="password" placeholder="***">
+            </div>
+        </div>
+        <form method="GET" action="/order_paid">
+            <div class="col-12">
+                <button type="submit" name="update">Pay now</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
 
-        <!-- jQuery -->
-        <script src="/js/jquery.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="/js/bootstrap.min.js"></script>
 
-        <!-- Plugin JavaScript -->
-        <script src="/js/jquery.easing.min.js"></script>
 
-        <!-- Custom Theme JavaScript -->
-        <script src="/js/grayscale.js"></script>
-        <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><![endif]-->
+<!-- Footer -->
+<footer>
+    <div class="container text-center">
+        <p>Copyright &copy; Anansi 2022</p>
+    </div>
+</footer>
 
-        <script src="/js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-        <script src="/js/custom.js" type="text/javascript"></script>
-        <script type="text/javascript" src="/js/wow.js"></script> 
-        <script src="/js/shopping_cart.js"></script>
-        </body>
+<!-- jQuery -->
+<script src="/js/jquery.js"></script>
 
-        </html>
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="/js/jquery.easing.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/grayscale.js"></script>
+<!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><![endif]-->
+
+    <script src="/js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <script src="/js/custom.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/wow.js"></script> 
+    <script src="/js/shopping_cart.js"></script>
+</body>
+
+</html>
