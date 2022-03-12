@@ -228,6 +228,13 @@
     <div style="padding: 30px;">
         <a style="width: 100%;" href="create_anansi_db.sql" download="create_anansi_db.sql" class="btn btn-info" role="button">Download SQL</a>
     </div>
+    <p>
+        You will need to update the following in src/main/resources/application.properties to match your mySql user and password.
+        <br />
+        spring.datasource.username=root
+        <br />
+        spring.datasource.password=1234
+    </p>
     <p>Once the database is active you can start the application via IDE or maven shell commands.<br>
     Then open a browser and go to <a href="http://localhost:8080">http://localhost:8080</a><br>
     To explore the admin pages use the following: Username: admin101 Password: 1234</p>
