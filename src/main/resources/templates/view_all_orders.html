@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Anansi Admin Portal</title>
+    <title>Anansi Datasets</title>
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -81,8 +81,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center intro-body">
-                <h2 class="brand-heading-secondary">All Datasets</h2>
+                <h2 class="brand-heading-secondary">View All Orders</h2>
                 <a href="/" class="btn btn-default btn-lg">Back to Main Page</a>
+                <a href="/adminportal" class="btn btn-default btn-lg" th:if="admin">Back to Admin Portal</a>
             </div>
         </div>
     </div>
@@ -90,24 +91,28 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4 all-data-filters">
-            <input type="checkbox" class="all-check-box" checked id="0" />
-            <label for="0">All</label>
-            <th:block th:each="assetType: ${assetTypes}">
-                <div>
-                    <input type="checkbox" class="type-check-box" checked th:id="${assetType.getAsset_type_id()}" />
-                    <label th:for="${assetType.getAsset_type_id()}" th:text="${assetType.getTypename()}"></label>
-                </div>
-            </th:block>
-        </div>
+<!--        <div th:if="admin">-->
+<!--        <div class="col-md-4 all-data-filters">-->
+<!--            <input type="checkbox" class="all-check-box" checked id="0" />-->
+<!--            <label for="0">All</label>-->
+<!--            <th:block th:each="status: ${orderStats}">-->
+<!--                <div>-->
+<!--                    <input type="checkbox" class="type-check-box" checked th:id="${status.getStatus()}" />-->
+<!--                    <label th:for="${status.status.getStatus()}" th:text="${status.status.getStatus()}"></label>-->
+<!--                </div>-->
+<!--            </th:block>-->
+<!--        </div>-->
+<!--        </div>-->
         <div class="col-md-8 all-data-assets">
-            <th:block th:each="dataAsset: ${dataAssets}">
-                <div class="all-data-asset" th:attr="data-type-id=${dataAsset.getAsset_type().asset_type_id}">
-                    <h3 th:text="${dataAsset.getAssetname()}"></h3>
-                    <p th:text="${dataAsset.getAssetdesc()}"></p>
-                    <a th:href="@{${'/update_data/' + dataAsset.getData_asset_id()}}">Update Dataset</a>
-                    <p th:if="${!dataAsset.isActive()}" style="color: red;">Dataset is not-active.</p>
-                </div>
+            <th:block th:each="order: ${orders}">
+
+                    <div class="all-data-asset" th:attr="data-type-id=${order.getOrder_id()}">
+                        <h3 th:text="${order.getDate()}"></h3>
+                        <p th:text="${order.getStatus()}"></p>
+                        <p th:text="${order.getTotPrice()}"></p>
+                        <a th:href="@{${'/view_order/' + order.getOrder_id()}}">View Order</a>
+                    </div>
+
             </th:block>
         </div>
     </div>

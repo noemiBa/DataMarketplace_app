@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -120,6 +121,28 @@ public class OrdersController {
         model.addAttribute("totQuantity", totQuantity);
 
         return "view_order.html";
+    }
+
+    @GetMapping("/viewallorders")
+    public String viewAllOrders(Model model) {
+        // send down types for filtering and assets
+        ArrayList<String> orderStats = new ArrayList<>();
+        orderStats.add("New"); orderStats.add("Cancelled"); orderStats.add("Fullfilled");
+        model.addAttribute("orders", ordersRepo.findAll());
+        model.addAttribute("orderStats", orderStats);
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+        }
+        if(activeUser.getInstance().getActiveUser().isAdmin()) {
+            model.addAttribute("admin", true);
+        } else {
+            model.addAttribute("admin", false);
+        }
+        return "view_all_orders.html";
     }
 
 }

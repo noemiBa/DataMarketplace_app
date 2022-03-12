@@ -59,22 +59,16 @@
                             <a href="#page-top"></a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/#about">About</a>
+                            <a class="page-scroll" href="/newuser">Add New User</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/#datasets">Datasets</a>
+                            <a class="page-scroll" href="/add_new_asset">Add New Asset</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/#team">Our team</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="/shoppingcart">Shopping Cart</a>
+                            <a class="page-scroll" href="/viewallorders">View All Orders</a>
                         </li>
                         <li>
                             <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="/#location">Location</a>
                         </li>
                     </ul>
                 </div>
@@ -154,7 +148,7 @@
     <h5 style="color: black; padding-right: 1em;">Total amount: &euro;<span th:text="${order.getTotPrice()}"></span></h5>   
 </div>
 <div class="row" th:if="${loggedIn}">
-    <form method="GET" action="/">
+    <form method="GET" action="/viewallorders">
         <button type="submit">Back to all orders</button>
     </form>   
 </div> 
