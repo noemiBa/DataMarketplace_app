@@ -71,8 +71,11 @@
                         <li>
                             <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
                         </li>
-                        <li>
+                        <li th:unless="${loggedIn}">
                             <a class="page-scroll" href="#location">Location</a>
+                        </li>
+                        <li th:if="${loggedIn}">
+                            <a class="page-scroll" href="/viewallorders">View Orders</a>
                         </li>
                     </ul>
                 </div>
@@ -155,15 +158,15 @@
 
             <!-- Datasets section --> 
             <section id="datasets" class="content-section">
-               <!-- Topic datas -->
-               <div id="datasets_wrap-2">
+             <!-- Topic datas -->
+             <div id="datasets_wrap-2">
                 <div class="container">
                     <div class="heading text-center">
-                     <!-- Heading -->
-                     <h2>Featured Datasets</h2>
-                     <p>Click on any of our datasets to find out more information and pricing.</p>
-                 </div>
-                 <div class="row">
+                       <!-- Heading -->
+                       <h2>Featured Datasets</h2>
+                       <p>Click on any of our datasets to find out more information and pricing.</p>
+                   </div>
+                   <div class="row">
                     <th:block th:each="i: ${#numbers.sequence(1, featuredCount)}">
                         <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
                             <a th:href="@{${'/view_data/' + featuredAssets.get(i - 1).getData_asset_id()}}">
@@ -182,52 +185,6 @@
                             </a>
                         </div>
                     </th:block>
-                    <!-- <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <a href="">
-                            <div class="data-flyer">
-                                <div class="text-box">
-                                    <div class="image-box">
-                                        <img src="img/datasets/img2.jpg" alt="" />
-                                    </div>
-                                    <div class="text-container">                                    
-                                        <h6>Dataset 02</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <a href="">
-                            <div class="data-flyer">
-                                <div class="text-box">
-                                    <div class="image-box">
-                                        <img src="img/datasets/img3.jpg" alt="" />
-                                    </div>
-
-                                    <div class="text-container">
-                                        <h6>Dataset 03</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                        <a href="">
-                            <div class="data-flyer">
-                                <div class="text-box">
-                                    <div class="image-box">
-                                        <img src="img/datasets/img4.jpg" alt="" />
-                                    </div>
-                                    <div class="text-container">
-                                        <h6>Dataset 04</h6>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div> -->
                 </div>
             </div>
             <a href="datasets_all" class="btn btn-default btn-lg">See all datasets</a>
@@ -236,56 +193,56 @@
 </section>
 
 <!-- Our Team Section -->
-    <section id="team" class="bg-gray">
-        <div class="container ">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <h2 class="team-heading heading">Our Expert Team</h2>
+<section id="team" class="bg-gray">
+    <div class="container ">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="team-heading heading">Our Expert Team</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="team-member">
+                    <img src="img/team/jerry.jpeg" class="img-responsive img-circle" alt="">
+                    <h4>Jerry Klos</h4>
+                    <p class="subtext-team">Full-Stack Developer</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="team-member">
-                        <img src="img/team/jerry.jpeg" class="img-responsive img-circle" alt="">
-                        <h4>Jerry Klos</h4>
-                        <p class="subtext-team">Full-Stack Developer</p>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="team-member">
-                        <img src="img/team/simon.jpg" class="img-responsive img-circle" alt="">
-                        <h4>Simon Farrelly</h4>
-                        <p class="subtext-team">Full-Stack Developer</p>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="team-member">
-                        <img src="img/team/noemi.jpg" class="img-responsive img-circle" alt="">
-                        <h4>Noemi Banal</h4>
-                        <p class="subtext-team">Full-Stack Developer</p>
-                    </div>
+            <div class="col-sm-4">
+                <div class="team-member">
+                    <img src="img/team/simon.jpg" class="img-responsive img-circle" alt="">
+                    <h4>Simon Farrelly</h4>
+                    <p class="subtext-team">Full-Stack Developer</p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <p class="large subtext-team">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+            <div class="col-sm-4">
+                <div class="team-member">
+                    <img src="img/team/noemi.jpg" class="img-responsive img-circle" alt="">
+                    <h4>Noemi Banal</h4>
+                    <p class="subtext-team">Full-Stack Developer</p>
                 </div>
             </div>
         </div>
-    </section> 
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <p class="large subtext-team">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+            </div>
+        </div>
+    </div>
+</section> 
 
 
 <!-- Map Section -->
 <div id="location">
     <div class="content-section heading text-center">
-       <!-- Heading -->
-        <h2>Talk to us in person</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        <div class="map-responsive">
-         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2384.0548366956427!2d-6.227676583982705!3d53.30646417997065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4867093120c83a63%3A0x36762af31424bfcf!2sUniversity%20College%20Dublin!5e0!3m2!1sen!2sie!4v1645116443351!5m2!1sen!2sie" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                                        <p><br> <br></p>
-        </div>
-    </div>  
+     <!-- Heading -->
+     <h2>Talk to us in person</h2>
+     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+     <div class="map-responsive">
+       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2384.0548366956427!2d-6.227676583982705!3d53.30646417997065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4867093120c83a63%3A0x36762af31424bfcf!2sUniversity%20College%20Dublin!5e0!3m2!1sen!2sie!4v1645116443351!5m2!1sen!2sie" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+       <p><br> <br></p>
+   </div>
+</div>  
 </div>
 
 <!-- Footer -->
@@ -296,23 +253,23 @@
 </footer>
 
 <!-- jQuery -->
-<script src="js/jquery.js"></script>
+<script src="/js/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="js/jquery.easing.min.js"></script>
+<script src="/js/jquery.easing.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="js/grayscale.js"></script>
+<script src="/js/grayscale.js"></script>
 <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><![endif]-->
 
-    <script src="js/jquery.isotope.min.js" type="text/javavscript"></script>
-    <script src="js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-    <script src="js/custom.js" type="text/javascript"></script>
-    <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/wow.js"></script> 
+    <script src="/js/jquery.isotope.min.js" type="text/javavscript"></script>
+    <script src="/js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <script src="/js/custom.js" type="text/javascript"></script>
+    <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/wow.js"></script> 
 
 </body>
 

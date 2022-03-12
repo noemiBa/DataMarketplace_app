@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Anansi Datasets</title>
+    <title>Anansi Add New Asset</title>
 
     <!-- Bootstrap CSS -->
     <link th:href="@{../css/bootstrap.min.css}" rel="stylesheet">
@@ -96,7 +96,7 @@
                     <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/#location">Location</a>
+                    <a class="page-scroll" href="/viewallorders">View Orders</a>
                 </li>
             </ul>
         </div>
@@ -120,7 +120,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3 col-md-offset-2 data-order-section">
+        <div class="col-md data-order-section">
             <form method="POST" action="/add_new_dataset">
                  <input type="text" name="assetname" placeholder="Dataset Name" required>
                  <input type="text" name="assetcost" placeholder="Dataset Cost" required>

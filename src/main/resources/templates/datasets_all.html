@@ -71,8 +71,11 @@
                         <li>
                             <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
                         </li>
-                        <li>
+                        <li th:unless="${loggedIn}">
                             <a class="page-scroll" href="/#location">Location</a>
+                        </li>
+                        <li th:if="${loggedIn}">
+                            <a class="page-scroll" href="/viewallorders">View Orders</a>
                         </li>
                     </ul>
                 </div>
@@ -84,42 +87,42 @@
         <!-- Intro Header -->
         <div class="jumbotron jumbotron-billboard">
           <div class="img"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-center intro-body">
-                      <h2 class="brand-heading-secondary">All Datasets</h2>
-                        <a href="/" class="btn btn-default btn-lg">Back to Main Page</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
+          <div class="container">
             <div class="row">
-                <div class="col-md-4 all-data-filters">
-                    <input type="checkbox" class="all-check-box" checked id="0" />
-                    <label for="0">All</label>
-                    <th:block th:each="assetType: ${assetTypes}">
-                       <div>
-                            <input type="checkbox" class="type-check-box" checked th:id="${assetType.getAsset_type_id()}" />
-                            <label th:for="${assetType.getAsset_type_id()}" th:text="${assetType.getTypename()}"></label>
-                       </div>
-                    </th:block>
-                </div>
-                 <div class="col-md-8 all-data-assets">
-                     <th:block th:each="dataAsset: ${dataAssets}">
-                         <div th:if="${dataAsset.isActive()}">
-                            <div class="all-data-asset" th:attr="data-type-id=${dataAsset.getAsset_type().asset_type_id}">
-                                 <h3 th:text="${dataAsset.getAssetname()}"></h3>
-                                 <p th:text="${dataAsset.getAssetdesc()}"></p>
-                                 <a th:href="@{${'/view_data/' + dataAsset.getData_asset_id()}}">Find Out More</a>
-                             </div>
-                         </div>
-                     </th:block>
-                </div>
+                <div class="col-lg-12 text-center intro-body">
+                  <h2 class="brand-heading-secondary">All Datasets</h2>
+                  <a href="/" class="btn btn-default btn-lg">Back to Main Page</a>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+        <div class="col-md-4 all-data-filters">
+            <input type="checkbox" class="all-check-box" checked id="0" />
+            <label for="0">All</label>
+            <th:block th:each="assetType: ${assetTypes}">
+             <div>
+                <input type="checkbox" class="type-check-box" checked th:id="${assetType.getAsset_type_id()}" />
+                <label th:for="${assetType.getAsset_type_id()}" th:text="${assetType.getTypename()}"></label>
             </div>
-        </div>
-            
+        </th:block>
+    </div>
+    <div class="col-md-8 all-data-assets">
+       <th:block th:each="dataAsset: ${dataAssets}">
+           <div th:if="${dataAsset.isActive()}">
+            <div class="all-data-asset" th:attr="data-type-id=${dataAsset.getAsset_type().asset_type_id}">
+               <h3 th:text="${dataAsset.getAssetname()}"></h3>
+               <p th:text="${dataAsset.getAssetdesc()}"></p>
+               <a th:href="@{${'/view_data/' + dataAsset.getData_asset_id()}}">Find Out More</a>
+           </div>
+       </div>
+   </th:block>
+</div>
+</div>
+</div>
+
 
 <!-- Footer -->
 <footer>
@@ -129,25 +132,25 @@
 </footer>
 
 <!-- jQuery -->
-<script src="js/jquery.js"></script>
+<script src="/js/jquery.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="js/jquery.easing.min.js"></script>
+<script src="/js/jquery.easing.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
-<script src="js/grayscale.js"></script>
+<script src="/js/grayscale.js"></script>
 <!--[if lte IE 8]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script><![endif]-->
 
-    <script src="js/jquery.isotope.min.js" type="text/javavscript"></script>
-    <script src="js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
-    <script src="js/custom.js" type="text/javascript"></script>
-    <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/wow.js"></script> 
+    <script src="/js/jquery.isotope.min.js" type="text/javavscript"></script>
+    <script src="/js/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+    <script src="/js/custom.js" type="text/javascript"></script>
+    <script src="/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/wow.js"></script> 
     <!--JS script for checkboxes-->
-    <script src="js/datasets_all.js"></script>
+    <script src="/js/datasets_all.js"></script>
 
 </body>
 
