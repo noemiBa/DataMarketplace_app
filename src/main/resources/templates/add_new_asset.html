@@ -81,16 +81,10 @@
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/#about">About</a>
+                    <a class="page-scroll" href="/newuser">Add New User</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="/#datasets">Datasets</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="/#team">Our team</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="/shoppingcart">Shopping Cart</a>
+                    <a class="page-scroll" href="/add_new_asset">Add New Asset</a>
                 </li>
                 <li>
                     <a class="page-scroll" th:href="@{|${loginRouting}|}"><span th:text="${loginstate}"></span></a>
@@ -122,29 +116,29 @@
     <div class="row">
         <div class="col-md data-order-section">
             <form method="POST" action="/add_new_dataset">
-                 <input type="text" name="assetname" placeholder="Dataset Name" required>
-                 <input type="text" name="assetcost" placeholder="Dataset Cost" required>
-                 <input type="text" name="assetsize" placeholder="Datset Size" required>
-                 <textarea name="assetdesc" placeholder="Dataset Description" required></textarea>
-                 <select name="featured">
+                <input type="text" name="assetname" placeholder="Dataset Name" required>
+                <input type="text" name="assetcost" placeholder="Dataset Cost" required>
+                <input type="text" name="assetsize" placeholder="Datset Size" required>
+                <textarea name="assetdesc" placeholder="Dataset Description" required></textarea>
+                <select name="featured">
                     <option value="false">Not Featured</option>
                     <option value="true">Featured</option>
-                 </select>
-                 <select name="active">
+                </select>
+                <select name="active">
                     <option value="true">Active</option>
                     <option value="false">Not Active</option>
-                 </select>
-<!--                <input type="text" name="featured" value="false" required>-->
-<!--                 <input type="text" name="active" value="true" required>-->
-                 <select name="typeid">
-                     <option value="1">Marketing</option>
-                     <option value="2">Financial</option>
-                     <option value="3">Environment</option>
-                     <option value="4">World Domination</option>
-                 </select>
+                </select>
+                <!--                <input type="text" name="featured" value="false" required>-->
+                <!--                 <input type="text" name="active" value="true" required>-->
+                <select name="typeid">
+                    <option value="1">Marketing</option>
+                    <option value="2">Financial</option>
+                    <option value="3">Environment</option>
+                    <option value="4">World Domination</option>
+                </select>
                 <button type="submit">Add Dataset</button>
-                </form>
-            </div>
+            </form>
+        </div>
     </div>
 </div>
 
