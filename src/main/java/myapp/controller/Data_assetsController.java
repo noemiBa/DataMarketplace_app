@@ -2,6 +2,10 @@ package myapp.controller;
 
 import myapp.model.activeUser;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -19,6 +23,9 @@ import myapp.model.Dataset;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 @Controller
@@ -153,6 +160,30 @@ public class Data_assetsController {
 		Dataset dataset = new Dataset();
 		dataset = Dataset.json2Java("globex.json", Dataset.class);
 		System.out.println(dataset.getName());
+		ArrayList<Dataset> testOrder = new ArrayList<>();
+		Dataset ds1 = new Dataset();
+		Dataset ds2 = new Dataset();
+		ds1 = Dataset.json2Java("finity.json", Dataset.class);
+		ds2 = Dataset.json2Java("ninjacat.json", Dataset.class);
+		Collections.shuffle(ds1.getValues());
+		Collections.shuffle(ds2.getValues());
+		ds1.setValues(new ArrayList<Double>(ds1.getValues().subList(0, 20)));
+		ds2.setValues(new ArrayList<Double>(ds2.getValues().subList(0, 20)));
+		testOrder.add(ds1);
+		testOrder.add(ds2);
+		Gson gson = new Gson();
+		System.out.println("finitiy" + ds1.getName() + ds1.getValues().size());
+		// try {
+		// gson.toJson(ds1, new FileWriter("src/main/resources/static/testorder.json"));
+		// } catch(IOException ie) {}
+		try {
+			FileWriter fw = new FileWriter("src/main/resources/static/testorder.json");
+			gson.toJson(testOrder, fw);
+			fw.close();
+		} catch(IOException ie) {System.out.println("Error opening file");}
+		
+
+		// END TEST
 
 
 		// Setup Links for login/ out
