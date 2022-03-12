@@ -73,13 +73,16 @@ public class OrdersController {
 
     @Transactional
     @PostMapping("/change_order_status")
-    public @ResponseBody void changeOrderStatus(@RequestParam Integer orderID, @RequestParam String newStatus, HttpServletResponse response) throws Exception {
+    public @ResponseBody void changeOrderStatus(@RequestParam Integer orderID,
+                                                @RequestParam String newStatus,
+                                                @RequestParam Integer userID,
+                                                HttpServletResponse response) throws Exception {
 
-        Users user = activeUser.getInstance().getActiveUser();
+//        Users user = activeUser.getInstance().getActiveUser();
 
-        ordersRepo.updateStatus(newStatus, orderID, user.getId());
+        ordersRepo.updateStatus(newStatus, orderID, userID);
 
-        response.sendRedirect("/");
+        response.sendRedirect("/viewallorders");
     }
 
     @GetMapping("/view_order/{id}")

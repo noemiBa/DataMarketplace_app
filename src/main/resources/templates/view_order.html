@@ -147,6 +147,14 @@
 <div class="row text-right" th:if="${loggedIn}">
     <h5 style="color: black; padding-right: 1em;">Total amount: &euro;<span th:text="${order.getTotPrice()}"></span></h5>   
 </div>
+        <div class="row">
+            <form method="POST" action="/change_order_status">
+                <input type="text" name="userID" style="display: none;" th:value="${order.getUser().getId()}">
+                <input type="text" name="orderID" style="display: none;" th:value="${order.getOrder_id()}">
+                <input type="text" name="newStatus" th:placeholder="${order.getStatus()}">
+                <button type="submit">Update Status</button>
+            </form>
+        </div>
 <div class="row" th:if="${loggedIn}">
     <form method="GET" action="/viewallorders">
         <button type="submit">Back to all orders</button>
