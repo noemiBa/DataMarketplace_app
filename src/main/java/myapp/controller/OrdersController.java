@@ -15,9 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.springframework.core.io.FileSystemResource;
 
 @Controller
 public class OrdersController {
@@ -74,6 +82,29 @@ public class OrdersController {
             item.setPrice(cartItems.get(i).getItemCostByQuantity().floatValue());
             order_itemsRepo.save(item);
         }
+
+        // Create physical order
+        int orderID = order.getOrder_id();
+        ArrayList<Dataset> orderJson = new ArrayList<>();
+        for (int i = 0; i < cartItems.size(); i++) {
+            Data_assets asset = cartItems.get(i).getProduct();
+            Dataset set = new Dataset();
+            // Load dataset with asset name
+            set = Dataset.json2Java(asset.getAssetname().toLowerCase()+".json", Dataset.class);
+            // Randomise the values
+            Collections.shuffle(set.getValues());
+            // Select the first n where n is qty ordered
+            set.setValues(new ArrayList<Double>(set.getValues().subList(0, cartItems.get(i).getQuantity())));
+            orderJson.add(set);
+            //System.out.println("Asset ordered = " + asset.getAssetname());
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+			FileWriter fw = new FileWriter("src/main/resources/static/orders/order" + orderID + ".json");
+			gson.toJson(orderJson, fw);
+			fw.close();
+		} catch(IOException ie) {System.out.println("Error opening file");}
+        //System.out.println("Order num: " + orderID);
 
         //Delete all cart items for active user after payment received.
         cartRepo.deleteByCustomer(user.getId());
@@ -170,5 +201,11 @@ public class OrdersController {
 
         return "view_all_orders.html";
     }
+
+    @RequestMapping(value="/download_order/", method=RequestMethod.GET)
+    @ResponseBody
+    public FileSystemResource downloadFile(@RequestParam(value="id") int id) {
+        return new FileSystemResource("src/main/resources/static/orders/order" + id +".json");
+    } 
 
 }

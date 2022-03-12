@@ -181,11 +181,11 @@ public class Data_assetsController {
 		// try {
 		// gson.toJson(ds1, new FileWriter("src/main/resources/static/testorder.json"));
 		// } catch(IOException ie) {}
-		try {
-			FileWriter fw = new FileWriter("src/main/resources/static/testorder.json");
-			gson.toJson(testOrder, fw);
-			fw.close();
-		} catch(IOException ie) {System.out.println("Error opening file");}
+		// try {
+		// 	FileWriter fw = new FileWriter("src/main/resources/static/testorder.json");
+		// 	gson.toJson(testOrder, fw);
+		// 	fw.close();
+		// } catch(IOException ie) {System.out.println("Error opening file");}
 		
 
 		// END TEST

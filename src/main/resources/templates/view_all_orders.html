@@ -113,6 +113,9 @@
                         <th scope="col" class="border-0 bg-light">
                             <div class="py-2 text-uppercase">View</div>
                         </th>
+                        <th scope="col" class="border-0 bg-light">
+                            <div class="py-2 text-uppercase">Order</div>
+                        </th>
                         <th th:if="${admin}" scope="col" class="border-0 bg-light">
                             <div class="py-2 text-uppercase">Customer ID</div>
                         </th>
@@ -135,6 +138,9 @@
                         <td class="border-0 text-muted">
                             <a th:href="@{${'/view_order/' + order.getOrder_id()}}">View Order</a>
                         </td>
+                        <td class="border-0">
+                            <a th:href="@{${'/download_order/?id=' + order.getOrder_id()}}">Show JSON</a>
+                        </td>
                         <td th:if="${admin}" class="border-0 text-muted">
                             <span th:text="${order.getUser().getId()}"></span>
                         </td>
@@ -155,6 +161,9 @@
                     </td>
                     <td class="border-0 text-muted">
                         <a th:href="@{${'/view_order/' + order.getOrder_id()}}">View Order</a>
+                    </td>
+                    <td class="border-0">
+                        <a th:href="@{${'/download_order/?id=' + order.getOrder_id()}}">Show JSON</a>
                     </td>
                 </tr>
             </th:block> 
