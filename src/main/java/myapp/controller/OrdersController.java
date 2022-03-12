@@ -44,6 +44,16 @@ public class OrdersController {
         List<CartItem> cartItems = cartServices.listCartItems(user);
         Double totPrice = cartServices.getTotalPrice(user);
 
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
+        }
+
         //Add to Orders table
         Orders order = new Orders();
         order.setUser(user);
@@ -123,28 +133,41 @@ public class OrdersController {
         model.addAttribute("orderItems", orderItems);
         model.addAttribute("totQuantity", totQuantity);
 
+        if(activeUser.getInstance().getActiveUser().isAdmin()) {
+            model.addAttribute("admin", true);
+        } else {
+            model.addAttribute("admin", false);
+        }
+
         return "view_order.html";
     }
 
     @GetMapping("/viewallorders")
     public String viewAllOrders(Model model) {
         // send down types for filtering and assets
+        Users user = activeUser.getInstance().getActiveUser();
         ArrayList<String> orderStats = new ArrayList<>();
         orderStats.add("New"); orderStats.add("Cancelled"); orderStats.add("Fullfilled");
+
         model.addAttribute("orders", ordersRepo.findAll());
+        model.addAttribute("ordersByCustomer", ordersRepo.findByUser(user));
         model.addAttribute("orderStats", orderStats);
+
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             model.addAttribute("loginRouting","/login");
             model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
         } else {
             model.addAttribute("loginRouting","/logout");
             model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
+            if(activeUser.getInstance().getActiveUser().isAdmin()) {
+                model.addAttribute("admin", true);
+            } else {
+                model.addAttribute("admin", false);
+            }
         }
-        if(activeUser.getInstance().getActiveUser().isAdmin()) {
-            model.addAttribute("admin", true);
-        } else {
-            model.addAttribute("admin", false);
-        }
+
         return "view_all_orders.html";
     }
 

@@ -45,6 +45,16 @@ public class ShoppingCartController {
             model.addAttribute("totPrice", totPrice);
             model.addAttribute("totQuantity", totQuantity);
 
+            if(activeUser.getInstance().isActiveUserLoggedIn()){
+                model.addAttribute("loginRouting","/login");
+                model.addAttribute("loginstate","Login");
+                model.addAttribute("loggedIn", false);
+            } else {
+                model.addAttribute("loginRouting","/logout");
+                model.addAttribute("loginstate","Log Out");
+                model.addAttribute("loggedIn", true);
+            }
+
             return "shoppingcart.html";
         } else {
             model.addAttribute("goHereAfterLogin","/shoppingcart");

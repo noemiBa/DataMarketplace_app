@@ -28,7 +28,15 @@ public class MyController {
 
     @GetMapping("/thank_you")
     public String viewAllUsers(Model model) {
-        // insert model attributes here
+        if(activeUser.getInstance().isActiveUserLoggedIn()){
+            model.addAttribute("loginRouting","/login");
+            model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
+        } else {
+            model.addAttribute("loginRouting","/logout");
+            model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
+        }
         return "thankyou.html";
     }
 
@@ -47,11 +55,13 @@ public class MyController {
             model.addAttribute("showJoinUs",true);
             model.addAttribute("loginRouting","/login");
             model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
         } else {
             System.out.println(activeUser.getInstance().toString());
             model.addAttribute("showJoinUs",false);
             model.addAttribute("loginRouting","/logout");
             model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
         }
 
         return "index.html";
@@ -68,9 +78,11 @@ public class MyController {
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             model.addAttribute("loginRouting","/adminlogin");
             model.addAttribute("loginstate","Admin Login");
+            model.addAttribute("loggedIn", false);
         } else {
             model.addAttribute("loginRouting","/logout");
             model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
         }
         return "login.html";
     }
@@ -85,9 +97,11 @@ public class MyController {
         if(activeUser.getInstance().isActiveUserLoggedIn()){
             model.addAttribute("loginRouting","/login");
             model.addAttribute("loginstate","Login");
+            model.addAttribute("loggedIn", false);
         } else {
             model.addAttribute("loginRouting","/logout");
             model.addAttribute("loginstate","Log Out");
+            model.addAttribute("loggedIn", true);
         }
         return "adminlogin.html";
     }
